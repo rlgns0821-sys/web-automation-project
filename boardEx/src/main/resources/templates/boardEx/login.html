@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>자동예매 - 로그인</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Google -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <!-- Naver -->
+  <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-wrapper {
+      background: #fff;
+      width: 100%;
+      max-width: 420px;
+      padding: 2.5rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #6366f1;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: #64748b;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .login-section {
+      margin-bottom: 1.5rem;
+    }
+
+    .login-section h3 {
+      font-size: 0.95rem;
+      color: #334155;
+      margin-bottom: 0.75rem;
+      font-weight: 600;
+    }
+
+    #buttonDiv,
+    #naverIdLogin {
+      display: flex;
+      justify-content: center;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: #94a3b8;
+      font-size: 0.85rem;
+      margin: 1.5rem 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    #user {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    #user img {
+      border-radius: 50%;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login-wrapper">
+    <div class="logo">⚡ 자동예매</div>
+    <div class="subtitle">소셜 계정으로 간편 로그인</div>
+
+    <div class="login-section">
+      <h3>Google 로그인</h3>
+      <div id="buttonDiv"></div>
+    </div>
+
+    <div class="divider">또는</div>
+
+    <div class="login-section">
+      <h3>Naver 로그인</h3>
+      <div id="naverIdLogin"></div>
+    </div>
+
+    <div id="user" style="display:none;">
+      <h3 id="name"></h3>
+      <h4 id="email"></h4>
+      <img id="picture" width="80">
+    </div>
+    
+    <div id="goHome">
+   	 	<a th:href="@{/}">메인으로</a> 
+    </div>
+  </div>
+</body>
+<script>
+function handleCredentialResponse(response) {
+	console.log("Google response 원본:", response);
+    const user = parseJwt(response.credential);
+    const loginId = user.email.split('@')[0];
+    const loginName = user.name;
+    
+    // 🔥 서버에 로그인 세션 생성 요청
+    fetch("/boardEx/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+    	  
+        loginId: loginId,
+        loginName: loginName
+      })
+    }).then(() => {
+      // UI용 (헤더 표시)
+      sessionStorage.setItem("loginId", loginId);
+      sessionStorage.setItem("loginName", user.name);
+
+      // 이동
+      location.href = "/";
+    });
+  }
+
+  function parseJwt(token) {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    return JSON.parse(decodeURIComponent(
+      atob(base64).split('').map(c =>
+        '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+      ).join('')
+    ));
+  }
+/* ==========google login=====================  */
+  window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: "384203258410-c4ce0q00u6nvvva61lnjf2k7ijn7m3ri.apps.googleusercontent.com",
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.renderButton(
+      document.getElementById("buttonDiv"),
+      { theme: "outline", size: "large", width: 260 }
+    );
+  };
+  
+/* ==========naver login=====================  */
+  const naverLogin = new naver.LoginWithNaverId({
+    clientId: "Py1P1aUvHuoyfJZP_HKq",
+    callbackUrl: "http://localhost:10001/boardEx/naverCallback",
+    loginButton: { color: "green", type: 3, height: 48 }
+  });
+
+  naverLogin.init();
+  
+  /* const name = naverLogin.user */
+  
+  console.log("naverLogin : ", naverLogin);
+</script>
+<script th:inline="javascript">
+	[[${msg}]] && alert([[${msg}]]);
+</script>
+</html>

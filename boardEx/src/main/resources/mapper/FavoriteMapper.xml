@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스 정보를 namespace에 기술 -->
+<mapper namespace="com.korea.boardEx.mapper.FavoritesMapper">
+	<select id="exists" resultType="int">
+		SELECT COUNT(*) 
+		  FROM USER_FAVORITES
+		 WHERE USER_ID = #{userId}
+		   AND SITE_ID = #{siteId}
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO USER_FAVORITES (USER_ID, SITE_ID)
+		VALUES (#{userId}, #{siteId})
+	</insert>
+	
+	<select id="getList" resultType="scriptsVO">
+		 SELECT
+		      S.SITE_ID,
+		      S.NAME,
+		      S.DESCRIPTION,
+		      S.CATEGORY,
+		      S.DIFFICULTY,
+		      S.URL,
+		      S.POPULAR,
+		      S.FEATURE,
+		      S.FEATURE2,
+		      S.FEATURE3,
+		      S.FEATURE4
+		  FROM USER_FAVORITES F
+		  JOIN AUTO_SITE S ON F.SITE_ID = S.SITE_ID
+		  WHERE F.USER_ID = #{userId}
+		    AND OPEN_YN = 'Y'
+		  ORDER BY S.POPULAR DESC, S.NAME
+	</select>
+	
+	<delete id="removeFavorite">
+	  DELETE FROM USER_FAVORITES
+	  WHERE USER_ID = #{userId}
+	    AND SITE_ID = #{siteId}
+	</delete>
+</mapper>

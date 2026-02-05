@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스 정보를 namespace에 기술 -->
+<mapper namespace="com.korea.boardEx.mapper.ScriptsMapper">
+	<sql id="criteria">
+		<if test="type != null and keyword != null">
+			<trim prefix="AND ">
+				<choose>
+					<when test="type=='ID'.toString()">
+						SITE_ID LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+					<when test="type=='N'.toString()">
+						NAME LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+					<when test="type=='C'.toString()">
+						CATEGORY LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+					<when test="type=='O'.toString()">
+						CASE 
+					         WHEN OPEN_YN = 'Y' THEN '공개'
+					         WHEN OPEN_YN = 'N' THEN '비공개'
+					     END LIKE CONCAT('%', #{keyword}, '%')
+					</when>
+				</choose>
+			</trim>
+		</if>
+	</sql>
+	
+	<!-- 관리자용 -->
+	<select id="getAllScripts" resultType="scriptsVO">
+		 SELECT
+		         SITE_ID        AS siteId,
+		         NAME           AS name,
+		         DESCRIPTION    AS description,
+		         CATEGORY       AS category,
+		         DIFFICULTY     AS difficulty,
+		         URL            AS url,
+		
+	 	         FEATURE,
+		         FEATURE2,
+		         FEATURE3,
+		         FEATURE4,
+		
+		         POPULAR        AS popular,
+		         OPEN_YN        AS openYn,
+		         USE_COUNT      AS useCount,
+		
+		         CREATED_AT     AS createdAt,
+		         UPDATED_AT     AS updatedAt,
+		         LAST_USED_AT   AS lastUsedAt
+		    FROM AUTO_SITE
+		   ORDER BY POPULAR DESC,
+		            USE_COUNT DESC,
+		            CREATED_AT DESC
+	</select>
+	
+	<!-- 관리자용 + 페이징 -->
+	<select id="getAllScriptsWithPaging" resultType="scriptsVO">
+		 SELECT
+		         SITE_ID        AS siteId,
+		         NAME           AS name,
+		         DESCRIPTION    AS description,
+		         CATEGORY       AS category,
+		         DIFFICULTY     AS difficulty,
+		         URL            AS url,
+		
+	 	         FEATURE,
+		         FEATURE2,
+		         FEATURE3,
+		         FEATURE4,
+		
+		         POPULAR        AS popular,
+		         OPEN_YN  		AS openYn,
+		         USE_COUNT      AS useCount,
+		
+		         CREATED_AT     AS createdAt,
+		         UPDATED_AT     AS updatedAt,
+		         LAST_USED_AT   AS lastUsedAt,
+		         MANAGER 		AS manager
+		    FROM AUTO_SITE
+		   WHERE 1 = 1
+		   <include refid="criteria"></include>
+		   ORDER BY 
+		            CREATED_AT DESC
+           LIMIT #{offset}, #{amount}
+	</select>
+	
+	<!-- 관리 스크립트 전체 수  -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM AUTO_SITE
+		 WHERE 1 = 1
+		 <include refid="criteria"></include>
+	</select>
+	
+	<!-- 사용자용 -->
+	<select id="getOpenScripts">
+		 SELECT
+		        SITE_ID,
+		        NAME,
+		        DESCRIPTION,
+		        CATEGORY,
+		        DIFFICULTY,
+		        URL,
+		        POPULAR,
+		        FEATURE,
+		        FEATURE2,
+		        FEATURE3,
+		        FEATURE4
+		   FROM AUTO_SITE
+		  WHERE OPEN_YN = 'Y'
+		  ORDER BY POPULAR DESC, USE_COUNT DESC
+	</select>
+	
+	<!-- insert  -->
+	<!-- 스크립트 등록은 id값의 규칙성이 없으므로 seq를 안썼음  -->
+	<insert id="insert" parameterType="scriptsVO">
+		INSERT INTO AUTO_SITE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  SITE_ID,
+		  NAME,
+		  CATEGORY,
+		  DESCRIPTION,
+		  DIFFICULTY,
+		  URL,
+		  MANAGER,
+		  <if test="openYn != null and openYn != ''">OPEN_YN,</if>
+		  <if test="feature != null and feature != ''">FEATURE,</if>
+		  <if test="feature2 != null and feature2 != ''">FEATURE2,</if>
+		  <if test="feature3 != null and feature3 != ''">FEATURE3,</if>
+		  <if test="feature4 != null and feature4 != ''">FEATURE4,</if>
+		</trim>
+		VALUES
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  #{siteId},
+		  #{name},
+		  #{category},
+		  #{description},
+		  #{difficulty},
+		  #{url},
+		  #{manager},
+		  <if test="openYn != null and openYn != ''">#{openYn},</if>
+		  <if test="feature != null and feature != ''">#{feature},</if>
+		  <if test="feature2 != null and feature2 != ''">#{feature2},</if>
+		  <if test="feature3 != null and feature3 != ''">#{feature3},</if>
+		  <if test="feature4 != null and feature4 != ''">#{feature4},</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="scriptsVO">
+		UPDATE AUTO_SITE
+		<set>
+		    <if test="name != null and name != ''">
+		        NAME = #{name},
+		    </if>
+		
+		    <if test="description != null">
+		        DESCRIPTION = #{description},
+		    </if>
+		
+		    <if test="category != null and category != ''">
+		        CATEGORY = #{category},
+		    </if>
+		    
+		    <if test="openYn != null and openYn != ''">
+		        OPEN_YN = #{openYn},
+		    </if>
+		
+		    <if test="difficulty != null and difficulty != ''">
+		        DIFFICULTY = #{difficulty},
+		    </if>
+		
+		    <if test="url != null and url != ''">
+		        URL = #{url},
+		    </if>
+		
+		    <if test="popular != null">
+		        POPULAR = #{popular},
+		    </if>
+		    
+		    <if test="feature != null and feature != ''">
+		        FEATURE = #{feature},
+		    </if>
+		    <if test="feature2 != null and feature2 != ''">
+		        FEATURE2 = #{feature2},
+		    </if>
+		    <if test="feature3 != null and feature3 != ''">
+		        FEATURE3 = #{feature3},
+		    </if>
+		    <if test="feature4 != null and feature4 != ''">
+		        FEATURE4 = #{feature4},
+		    </if>
+		
+		    UPDATED_AT = NOW()
+		</set>
+		WHERE SITE_ID = #{siteId}
+	</update>
+
+	<select id="select" parameterType="string" resultType="scriptsVO">
+	    SELECT
+	        SITE_ID     AS siteId,
+	        NAME        AS name,
+	        DESCRIPTION AS description,
+	        CATEGORY    AS category,
+	        DIFFICULTY  AS difficulty,
+	        URL         AS url,
+	        FEATURE,
+	        FEATURE2,
+	        FEATURE3,
+	        FEATURE4,
+	        OPEN_YN     AS openYn,
+	        POPULAR     AS popular
+	    FROM AUTO_SITE
+	    WHERE SITE_ID = #{siteId}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM AUTO_SITE WHERE SITE_ID = #{siteId}
+	</delete>
+	
+	<update id="increaseUseCount">
+	  	UPDATE AUTO_SITE
+	  	SET USE_COUNT = USE_COUNT + 1
+	  	WHERE site_id = #{siteId}
+	</update>
+</mapper>

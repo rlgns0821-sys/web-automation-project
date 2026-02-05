@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Interpark Concert Ranking Helper",
+  "version": "1.0.0",
+  "permissions": ["tabs"],
+  "host_permissions": [
+    "https://tickets.interpark.com/*",
+    "https://ticket.interpark.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://tickets.interpark.com/contents/ranking*"
+      ],
+      "js": ["content_ranking.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://tickets.interpark.com/*",
+        "https://ticket.interpark.com/*"
+      ],
+      "js": ["content_detail.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ]
+}

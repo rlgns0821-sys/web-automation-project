@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동예매 - 스크립트</title>
+   
+<!-- Favicons -->
+<link href="/assets/img/thunder_icon.png" rel="icon">
+    
+<style>
+/* 사이트 바로가기 영역 */
+.site-link {
+  margin-top: 0.75rem;
+  text-align: center;
+}
+
+/* 버튼 스타일 */
+.site-btn {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+
+  background: rgba(99, 102, 241, 0.08);   /* primary 연한 배경 */
+  border: 1px dashed rgba(99, 102, 241, 0.4);
+  border-radius: 8px;
+
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* hover 효과 */
+.site-btn:hover {
+  background: var(--primary);
+  color: white;
+  border-style: solid;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.25);
+}
+   
+   	.favorite-icon {
+	  position: absolute;
+	  top: 1rem;
+	  right: 1rem;
+	
+	  font-size: 1.4rem;
+	  color: #cbd5f5; /* 기본 연한 색 */
+	  cursor: pointer;
+	
+	  transition: all 0.2s ease;
+	}
+	
+	.favorite-icon:hover {
+	  color: #f59e0b;
+	  transform: scale(1.15);
+	}
+	
+	.favorite-icon.active {
+	  color: #f59e0b;
+	}
+   
+   	.modal-footer .btn-outline {
+	  border-color: var(--primary);
+	  color: var(--primary);
+	}
+	
+	.modal-footer .btn-outline:hover {
+	  background: var(--primary);
+	  color: white;
+	}
+   
+       * {
+           margin: 0;
+           padding: 0;
+           box-sizing: border-box;
+      	  }
+
+       :root {
+       --primary: #6366f1;
+       --primary-dark: #4f46e5;
+       --secondary: #8b5cf6;
+       --success: #10b981;
+       --warning: #f59e0b;
+       --danger: #ef4444;
+       --dark: #1e293b;
+       --gray: #64748b;
+       --light-gray: #f1f5f9;
+       --border: #e2e8f0;
+       }
+
+
+       body {
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+           background: var(--background);
+           color: var(--text);
+           line-height: 1.6;
+       }
+
+       .container {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 0 1rem;
+       }
+
+       /* Header & Navigation */
+       header {
+           background: white;
+           box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+           position: sticky;
+           top: 0;
+           z-index: 1000;
+       }
+
+       nav {
+           max-width: 1200px;
+           margin: 0 auto;
+           padding: 0 1.5rem;
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           height: 70px;
+       }
+
+       .logo {
+           display: flex;
+           align-items: center;
+           gap: 0.75rem;
+           font-size: 1.5rem;
+           font-weight: 700;
+           color: var(--primary);
+           text-decoration: none;
+       }
+
+        .logo-icon {
+           width: 40px;
+           height: 40px;
+           background: linear-gradient(135deg, var(--primary), var(--secondary));
+           border-radius: 10px;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           color: white;
+       }
+
+       .nav-menu {
+           display: flex;
+           list-style: none;
+           gap: 2rem;
+           align-items: center;
+       }
+
+       .nav-menu a {
+           text-decoration: none;
+           color: var(--dark);
+           font-weight: 500;
+           transition: color 0.3s;
+           position: relative;
+       }
+
+       .nav-menu a:hover {
+           color: var(--primary);
+       }
+
+       .nav-menu a.active::after {
+           content: '';
+           position: absolute;
+           bottom: -8px;
+           left: 0;
+           right: 0;
+           height: 3px;
+           background: var(--primary);
+           border-radius: 3px;
+       }
+
+       .mobile-menu-btn {
+           display: none;
+           background: none;
+           border: none;
+           font-size: 1.5rem;
+           cursor: pointer;
+           color: var(--dark);
+       }
+
+       h1 {
+           font-size: 1.5rem;
+           font-weight: 700;
+       }
+
+       .subtitle {
+           color: var(--text-muted);
+           font-size: 0.875rem;
+       }
+
+       .stats {
+           display: flex;
+           gap: 2rem;
+           font-size: 0.875rem;
+           color: var(--text-muted);
+       }
+
+       /* Tabs */
+       .tabs {
+           display: flex;
+           gap: 1rem;
+           border-bottom: 2px solid var(--border);
+           margin: 2rem 0;
+       }
+
+       .tab {
+           padding: 0.75rem 1.5rem;
+           background: none;
+           border: none;
+           cursor: pointer;
+           font-size: 1rem;
+           color: var(--text-muted);
+           border-bottom: 2px solid transparent;
+           margin-bottom: -2px;
+           transition: all 0.2s;
+       }
+
+       .tab.active {
+           color: var(--primary);
+           border-bottom-color: var(--primary);
+           font-weight: 600;
+       }
+
+       .tab-content {
+           display: none;
+       }
+
+       .tab-content.active {
+           display: block;
+       }
+
+       /* Cards */
+       .card-grid {
+           display: grid;
+           /* ⬇️ 핵심 */
+	    grid-auto-flow: column;      /* 줄 바꿈 금지 */
+	    grid-auto-columns: 370px;    /* 카드 폭 고정 */
+	
+	    gap: 1.5rem;
+	    margin: 2rem 0;
+	
+	    overflow-x: auto;            /* 가로 스크롤 */
+	    overflow-y: visible;         /* hover 그림자 살리기 */
+	    padding: 2rem 0;             /* 그림자 여유 공간 */
+       }
+
+       .card {
+           background: white;
+           border: 1px solid var(--border);
+           border-radius: 12px;
+           padding: 1.5rem;
+           transition: all 0.3s;
+           position: relative;
+       }
+
+       .card:hover {
+           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+           transform: translateY(-2px);
+       }
+
+       .card-header {
+           margin-bottom: 1rem;
+       }
+
+       .card-title {
+           font-size: 1.25rem;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+       }
+
+       .card-description {
+           color: var(--text-muted);
+           font-size: 0.875rem;
+       }
+
+       .badge-group {
+           display: flex;
+           gap: 0.5rem;
+           margin: 1rem 0;
+           flex-wrap: wrap;
+       }
+
+       .badge {
+           padding: 0.25rem 0.75rem;
+           border-radius: 9999px;
+           font-size: 0.75rem;
+           font-weight: 500;
+       }
+
+       .badge-popular {
+           background: linear-gradient(135deg, #f59e0b, #ef4444);
+           color: white;
+       }
+
+       .badge-transport {
+           background: rgba(59, 130, 246, 0.1);
+           color: #2563eb;
+       }
+
+       .badge-ticket {
+           background: rgba(168, 85, 247, 0.1);
+           color: #7c3aed;
+       }
+
+       .badge-easy {
+           background: rgba(16, 185, 129, 0.1);
+           color: #059669;
+       }
+
+       .badge-medium {
+           background: rgba(245, 158, 11, 0.1);
+           color: #d97706;
+       }
+
+       .badge-hard {
+           background: rgba(239, 68, 68, 0.1);
+           color: #dc2626;
+       }
+
+       .features {
+           margin: 1rem 0;
+       }
+
+       .features-title {
+           font-size: 0.875rem;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+       }
+
+       .features-list {
+           list-style: none;
+       }
+
+       .features-list li {
+           font-size: 0.875rem;
+           color: var(--text-muted);
+           padding: 0.25rem 0;
+           padding-left: 1rem;
+           position: relative;
+       }
+
+       .features-list li::before {
+           content: "•";
+           position: absolute;
+           left: 0;
+           color: var(--primary);
+       }
+
+       .card-link {
+           display: inline-flex;
+           align-items: center;
+           gap: 0.25rem;
+           color: var(--primary);
+           text-decoration: none;
+           font-size: 0.875rem;
+           margin: 1rem 0;
+       }
+
+       .card-link:hover {
+           text-decoration: underline;
+       }
+
+       /* Button */
+       .btn {
+           padding: 0.75rem 1.5rem;
+           border: none;
+           border-radius: 8px;
+           font-size: 0.875rem;
+           font-weight: 600;
+           cursor: pointer;
+           transition: all 0.2s;
+           display: inline-flex;
+           align-items: center;
+           gap: 0.5rem;
+           width: 100%;
+           justify-content: center;
+       }
+
+       .btn-primary {
+           background: var(--primary);
+           color: white;
+       }
+
+       .btn-primary:hover {
+           background: var(--primary-dark);
+       }
+
+       .btn-outline {
+           background: transparent;
+           border: 1px solid var(--primary);
+           color: var(--primary);
+       }
+
+       .btn-outline:hover {
+           background: var(--primary);
+       }
+
+       /* Modal */
+       .modal {
+           display: none;
+           position: fixed;
+           top: 0;
+           left: 0;
+           right: 0;
+           bottom: 0;
+           background: rgba(0, 0, 0, 0.5);
+           z-index: 1000;
+           align-items: center;
+           justify-content: center;
+           padding: 1rem;
+       }
+
+       .modal.active {
+           display: flex;
+       }
+
+       .modal-content {
+           background: white;
+           border-radius: 12px;
+           max-width: 800px;
+           width: 100%;
+           max-height: 90vh;
+           overflow-y: auto;
+           box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+       }
+
+       .modal-header {
+           padding: 1.5rem;
+           border-bottom: 1px solid var(--border);
+       }
+
+       .modal-title {
+           font-size: 1.25rem;
+           font-weight: 600;
+           margin-bottom: 0.25rem;
+       }
+
+       .modal-body {
+           padding: 1.5rem;
+       }
+
+       .modal-footer {
+           padding: 1.5rem;
+           border-top: 1px solid var(--border);
+           display: flex;
+           gap: 0.5rem;
+           justify-content: flex-end;
+       }
+
+       /* Code Block */
+       .code-container {
+           background: #1e293b;
+           color: #e2e8f0;
+           border-radius: 8px;
+           padding: 1rem;
+           overflow-x: auto;
+           margin: 1rem 0;
+           position: relative;
+       }
+
+       .code-container pre {
+           margin: 0;
+           font-family: 'Courier New', monospace;
+           font-size: 0.875rem;
+           line-height: 1.5;
+       }
+
+       .copy-btn {
+           position: absolute;
+           top: 0.5rem;
+           right: 0.5rem;
+           padding: 0.5rem 1rem;
+           background: rgba(255, 255, 255, 0.1);
+           border: 1px solid rgba(255, 255, 255, 0.2);
+           color: white;
+           border-radius: 4px;
+           cursor: pointer;
+           font-size: 0.75rem;
+       }
+
+       .copy-btn:hover {
+           background: rgba(255, 255, 255, 0.2);
+       }
+
+       /* Instructions */
+       .instructions {
+           margin: 2rem 0;
+       }
+
+       .instruction-step {
+           display: flex;
+           gap: 1rem;
+           margin-bottom: 1rem;
+       }
+
+       .step-number {
+           width: 32px;
+           height: 32px;
+           background: var(--primary);
+           color: white;
+           border-radius: 50%;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           font-weight: 600;
+           flex-shrink: 0;
+       }
+       
+       /* Footer */
+       footer {
+           background: var(--dark);
+           color: white;
+           padding: 3rem 0 1.5rem;
+       }
+
+       .footer-content {
+           display: grid;
+           grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+           gap: 3rem;
+           margin-bottom: 2rem;
+       }
+
+       .footer-section h4 {
+           margin-bottom: 1rem;
+           font-size: 1.25rem;
+       }
+
+       .footer-section ul {
+           list-style: none;
+       }
+
+       .footer-section ul li {
+           margin-bottom: 0.5rem;
+       }
+
+       .footer-section a {
+           color: rgba(255,255,255,0.7);
+           text-decoration: none;
+           transition: color 0.3s;
+       }
+
+       .footer-section a:hover {
+           color: white;
+       }
+
+       .footer-bottom {
+           border-top: 1px solid rgba(255,255,255,0.1);
+           padding-top: 1.5rem;
+           text-align: center;
+           color: rgba(255,255,255,0.6);
+       }
+       
+
+       /* Alert Box */
+       .alert {
+           padding: 1rem;
+           border-radius: 8px;
+           margin: 1rem 0;
+       }
+
+       .alert-info {
+           background: rgba(59, 130, 246, 0.1);
+           border: 1px solid rgba(59, 130, 246, 0.2);
+           color: #1e40af;
+       }
+
+       .alert-warning {
+           background: rgba(245, 158, 11, 0.1);
+           border: 1px solid rgba(245, 158, 11, 0.2);
+           color: #92400e;
+       }
+
+       .alert-title {
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+       }
+
+       /* Community */
+       .community-header {
+           display: flex;
+           justify-content: space-between;
+           align-items: center;
+           margin-bottom: 1.5rem;
+       }
+
+       .post-card {
+           background: white;
+           border: 1px solid var(--border);
+           border-radius: 12px;
+           padding: 1.5rem;
+           margin-bottom: 1rem;
+       }
+
+       .post-header {
+           display: flex;
+           align-items: start;
+           justify-content: space-between;
+           margin-bottom: 1rem;
+       }
+
+       .post-title {
+           font-size: 1.125rem;
+           font-weight: 600;
+           margin-bottom: 0.5rem;
+       }
+
+       .post-meta {
+           font-size: 0.875rem;
+           color: var(--text-muted);
+           margin-top: 0.5rem;
+       }
+
+       .post-actions {
+           display: flex;
+           gap: 0.5rem;
+           margin-top: 1rem;
+       }
+
+       .action-btn {
+           padding: 0.5rem 1rem;
+           background: transparent;
+           border: 1px solid var(--border);
+           border-radius: 6px;
+           cursor: pointer;
+           font-size: 0.875rem;
+           display: flex;
+           align-items: center;
+           gap: 0.5rem;
+           color: var(--text-muted);
+       }
+
+       .action-btn:hover {
+           background: var(--card);
+       }
+
+    
+
+       /* Responsive */
+       @media (max-width: 768px) {
+           .card-grid {
+               grid-template-columns: 1fr;
+           }
+
+           .tabs {
+               overflow-x: auto;
+           }
+
+           .modal-content {
+               margin: 1rem;
+           }
+       }
+       .scroll-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 48px;
+    height: 48px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    z-index: 9999;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.scroll-top.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.scroll-top:hover {
+    transform: translateY(-3px);
+}
+</style>
+</head>
+<body>
+	<!-- header + nav 부분 header.html을 씀으로써 유지보수 편리 -->
+	<div th:replace="~{boardEx/header :: header}"></div>
+
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('scripts')">스크립트 목록</button>
+            <!-- <button class="tab" onclick="switchTab('community')">커뮤니티 <span id="communityBadge">(4)</span></button> -->
+            <button class="tab" onclick="goToCommunity()">커뮤니티 <span id="communityBadge"></span></button>
+        </div>
+
+        <!-- Scripts Tab -->
+        <div id="scripts" class="tab-content active">
+            <div class="alert alert-info">
+                <div class="alert-title">💡 사용 방법</div>
+                <ol style="padding-left: 1.5rem; font-size: 0.875rem;">
+                    <li>원하는 사이트의 카드를 클릭하여 설정 화면으로 이동하세요</li>
+                    <li>설정 화면에서 원하는 값을 넣어 주세요</li>
+                    <li>자동예매 버튼을 클릭하면 자동예매가 시작됩니다</li>
+                    <li>예약하기가 완료되면 문자를 확인해 주세요!</li>
+                </ol>
+            </div>
+
+            <div class="card-grid" id="siteCards"></div>
+        </div>
+
+        <!-- Community Tab -->
+        <div id="community" class="tab-content">
+            <div class="community-header">
+                <div>
+                    <h2>사이트 추천 게시판</h2>
+                    <p class="subtitle">자동예매가 필요한 사이트를 추천해주세요</p>
+                </div>
+                <button class="btn btn-primary" onclick="openCreatePost()">+ 사이트 추천하기</button>
+            </div>
+        </div>
+    </main>
+
+    <div class="container" id="disclaimer">
+        <div class="alert alert-warning">
+            <div class="alert-title">⚠️ 주의사항 및 면책조항</div>
+            <ul style="padding-left: 1.5rem; font-size: 0.875rem;">
+                <li>본 스크립트는 교육 및 참고 목적으로 제공됩니다</li>
+                <li>스크립트 사용으로 인한 모든 책임은 사용자에게 있습니다</li>
+                <li>과도한 요청으로 인한 서버 부하 및 IP 차단에 유의하세요</li>
+                <li>각 사이트의 이용약관을 준수하며 사용하시기 바랍니다</li>
+                <li>예매 성공을 보장하지 않으며, 실제 예매는 해당 사이트의 정책에 따릅니다</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Script Viewer Modal -->
+    <div id="scriptModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">스크립트</h2>
+                <p class="subtitle" id="modalDescription"></p>
+            </div>
+            <div class="modal-body">
+                <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                    <button class="btn btn-outline" onclick="copyScript()" style="flex: 1;">📋 스크립트 복사</button>
+                    <button class="btn btn-outline" onclick="downloadScript()" style="flex: 1;">💾 파일로 다운로드</button>
+                </div>
+
+                <div class="code-container" style="max-height: 400px; overflow-y: auto;">
+                    <pre id="scriptCode"></pre>
+                </div>
+
+                <div class="instructions">
+                    <h3 style="margin-bottom: 1rem;">📋 단계별 사용법</h3>
+                    <div id="instructionSteps"></div>
+                </div>
+
+                <div class="alert alert-warning">
+                    <div class="alert-title">⚠️ 주의사항</div>
+                    <ul style="padding-left: 1.5rem; font-size: 0.875rem;">
+                        <li>스크립트 사용 전 CONFIG 설정값을 반드시 확인하세요</li>
+                        <li>과도한 요청은 IP 차단의 원인이 될 수 있습니다</li>
+                        <li>예매 성공 후 반드시 결제를 완료하세요</li>
+                        <li>스크립트는 참고용이며, 실제 예매 성공을 보장하지 않습니다</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeModal()">닫기</button>
+                <button class="btn btn-primary" onclick="goToSite()" id="goToSiteBtn">사이트로 이동</button>
+            </div>
+        </div>
+    </div>
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<script>
+/* ==========면책사항 모달창======== */
+console.log('🔥 modal js loaded');
+
+document.addEventListener('click', function (e) {
+
+  const openTarget = e.target.closest('[data-modal]');
+  if (openTarget) {
+    e.preventDefault();
+    console.log('✅ disclaimer click detected');
+
+    const modalId = openTarget.dataset.modal + 'Modal';
+    const modal = document.getElementById(modalId);
+
+    console.log('modalId:', modalId);
+    console.log('modal element:', modal);
+
+    if (modal) modal.classList.add('active');
+    return;
+  }
+
+  if (
+    e.target.matches('[data-close]') ||
+    e.target.classList.contains('modal')
+  ) {
+    const modal = e.target.closest('.modal');
+    if (modal) modal.classList.remove('active');
+  }
+});
+/* ========모달창 끝==================  */
+
+
+function getScriptIdFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('siteId');
+}
+
+let sites = [];
+
+fetch('/boardEx/api/scripts')
+.then(res => res.json())
+.then(data => {
+  sites = data;
+  renderSites(sites);
+
+  // 🚧 새로고침해도 항상 1번 뜨는 안내
+  const hasDevSites = sites.some(site => site.id !== 'srt');
+
+  if (hasDevSites) {
+    alert(
+      '🚧 안내\n\n' +
+      '현재 자동예매 기능은 SRT만 제공 중입니다.\n' +
+      '그 외 사이트는 개발 중이며\n' +
+      '순차적으로 오픈될 예정입니다.'
+    );
+  }
+
+  const siteId = getScriptIdFromUrl();
+  if (siteId) {
+    viewScript(siteId);
+  }
+});
+
+
+
+function renderSites(sites) {
+	  const container = document.getElementById('siteCards');
+
+	  container.innerHTML = sites.map(site => `
+	    <div class="card">
+	      ${site.isPopular ? `
+	        <i class="bi bi-star-fill favorite-icon"
+	           onclick="addMyScript('${site.id}')"></i>
+	      ` : ''}
+
+	      <div class="card-header">
+	        <h3 class="card-title">${site.name}</h3>
+	        <p class="card-description">${site.description}</p>
+	      </div>
+
+	      <div class="badge-group">
+	        <span class="badge badge-${site.category === '교통' ? 'transport' : 'ticket'}">
+	          ${site.category}
+	        </span>
+	        <span class="badge badge-${site.difficulty === '쉬움'
+	          ? 'easy' : site.difficulty === '보통'
+	          ? 'medium' : 'hard'}">
+	          난이도: ${site.difficulty}
+	        </span>
+	      </div>
+
+	      <div class="features">
+	        <ul class="features-list">
+	          ${site.features.map(f => `<li>${f}</li>`).join('')}
+	        </ul>
+	      </div>
+	      <div class="features site-link">
+	        <button class="site-btn"
+	        		onclick="window.open('${site.url}', '_blank')">
+	        	🔗 공식 사이트 바로가기
+	        </button>
+	      </div>
+
+	      <button class="btn btn-primary"
+	              onclick="goScriptPage('${site.id}')">
+	        📝 자동예매 하기
+	      </button>
+	    </div>
+	  `).join('');
+}
+
+      let currentSite = null;
+
+      // Scripts
+      const scripts = {
+          srt: `// SRT 자동예매 스크립트
+// 사용법: SRT 예매 페이지에서 F12 → Console 탭에 붙여넣기
+
+// ==UserScript==
+// @name         SRT Auto Booking (Spring 연동)
+// @namespace    srt-auto-from-spring
+// @version      1.0.0
+// @description  Spring 설정값으로 SRT 자동 예매
+// @match        https://etk.srail.kr/*
+// @run-at       document-end
+// @grant        none
+// ==/UserScript==
+
+(function () {
+  "use strict";
+
+  /*********************************
+   * 🔧 사용자 설정 (여기만 수정)
+   *********************************/
+  const CONFIG = {
+    dptName: "동탄",        // 출발역 이름
+    arvName: "대전",        // 도착역 이름
+    dateDot: "2026.01.23",  // 메인 페이지 날짜 (YYYY.MM.DD)
+    dateYmd: "20260123",    // 결과 페이지 날짜 (YYYYMMDD)
+
+    // ⏰ 시간대 범위 (중요)
+    startTime: "060000",    // 07:00 이후
+    endTime:   "120000",    // 12:00 이전
+
+    refreshInterval: 1500   // 재조회 간격(ms)
+  };
+
+  /*********************************
+   * 🚉 역 이름 → 코드
+   *********************************/
+  const STATION_CODE = {
+    "수서": "0551",
+    "동탄": "0552",
+    "평택지제": "0553",
+    "천안아산": "0501",
+    "오송": "0502",
+    "대전": "0010",
+    "공주": "0503",
+    "익산": "0504",
+    "정읍": "0505",
+    "광주송정": "0036",
+    "나주": "0037",
+    "목포": "0040",
+    "김천구미": "0506",
+    "동대구": "0015",
+    "경주": "0507",
+    "울산": "0508",
+    "부산": "0020"
+  };
+
+  const STEP_KEY = "__SRT_STEP__";
+  const ALERT_KEY = "__SRT_ALERT__";
+
+  const dptCode = STATION_CODE[CONFIG.dptName];
+  const arvCode = STATION_CODE[CONFIG.arvName];
+  if (!dptCode || !arvCode) {
+    alert("❌ 역 이름 오류");
+    return;
+  }
+
+  const step = sessionStorage.getItem(STEP_KEY);
+  const url = location.href;
+
+  console.log("🚄 SRT AUTO SCRIPT", step, url);
+
+  /*********************************
+   * 1️⃣ 메인 페이지 → 조회
+   *********************************/
+  if (url.includes("/main.do") && !step) {
+    const dpt = document.querySelector("#dptRsStnCd");
+    const arv = document.querySelector("#arvRsStnCd");
+    const cal = document.querySelector("#cal");
+    const tm  = document.querySelector("#dptTm");
+
+    if (!dpt || !arv || !cal || !tm) return;
+
+    dpt.value = dptCode;
+    arv.value = arvCode;
+    cal.value = CONFIG.dateDot;
+    tm.value  = CONFIG.startTime;
+
+    ["change"].forEach(ev => {
+      dpt.dispatchEvent(new Event(ev, { bubbles: true }));
+      arv.dispatchEvent(new Event(ev, { bubbles: true }));
+      cal.dispatchEvent(new Event(ev, { bubbles: true }));
+      tm.dispatchEvent(new Event(ev, { bubbles: true }));
+    });
+
+    const searchBtn =
+      document.querySelector('button[onclick*="selectScheduleList"]') ||
+      document.querySelector('input.inquery_btn');
+
+    if (searchBtn) {
+      sessionStorage.setItem(STEP_KEY, "SEARCH");
+      searchBtn.click();
+    }
+  }
+
+  /*********************************
+   * 2️⃣ 조회 결과 → 시간대 대기
+   *********************************/
+  if (url.includes("selectScheduleList.do") && step === "SEARCH") {
+    let found = false;
+
+    const timer = setInterval(() => {
+      if (found) return;
+
+      const rows = [...document.querySelectorAll("table tbody tr")];
+
+      for (const tr of rows) {
+        if (!tr.innerText.includes("SRT")) continue;
+
+        // ⏰ 시간 파싱 (안정)
+        const timeMatch = tr.innerText.match(/(\d{2}):(\d{2})/);
+        if (!timeMatch) continue;
+
+        const hhmm = timeMatch[1] + timeMatch[2] + "00";
+        if (hhmm < CONFIG.startTime || hhmm > CONFIG.endTime) continue;
+
+        // ✅ 예약하기 버튼 존재 여부만 판단
+        const reserveBtn = [...tr.querySelectorAll("a")]
+          .find(a => a.innerText.includes("예약하기"));
+
+        if (!reserveBtn) continue;
+
+        console.log("✅ 지정 시간대 좌석 발견");
+        found = true;
+        clearInterval(timer);
+
+        sessionStorage.setItem(STEP_KEY, "RESERVED");
+        reserveBtn.click();
+        return;
+      }
+
+      // ❌ 진짜 없을 때만 재조회
+      console.log("🔄 해당 시간대 좌석 없음 → 재조회");
+      document.querySelector('input.inquery_btn, button[onclick*="selectScheduleList"]')?.click();
+
+    }, CONFIG.refreshInterval);
+  }
+
+  /*********************************
+   * 3️⃣ 예약 페이지 → 결제하기
+   *********************************/
+  if (url.includes("selectScheduleList.do") && step === "RESERVED") {
+    const timer = setInterval(() => {
+      const payBtn = [...document.querySelectorAll("a")]
+        .find(a =>
+          a.innerText.includes("결제하기") &&
+          a.getAttribute("onclick")?.includes("settleAmount")
+        );
+
+      if (!payBtn) return;
+
+      clearInterval(timer);
+
+      if (!sessionStorage.getItem(ALERT_KEY)) {
+        alert(
+          "⏰ 안내\n\n" +
+          "10분 내에 결제하지 않으면\n" +
+          "예약이 자동으로 취소됩니다.\n\n" +
+          "지금 바로 결제를 진행하세요."
+        );
+        sessionStorage.setItem(ALERT_KEY, "Y");
+      }
+
+      sessionStorage.setItem(STEP_KEY, "PAY");
+      payBtn.click();
+    }, 500);
+  }
+
+})();
+`,
+	hwa: `// 🌿 화담숲 자동 예약 스크립트
+	// 사용법: 화담숲 예약 페이지에서 F12 → Console에 붙여넣기
+
+	(function () {
+	  console.log('🌿 화담숲 자동예약 스크립트 시작');
+
+	  const CONFIG = {
+	    visitDate: '2025-04-20',   // 방문 날짜 (YYYY-MM-DD)
+	    ticketCount: 2,            // 인원 수
+	    retryInterval: 300         // 재시도 간격(ms)
+	  };
+
+	  let tryCount = 0;
+
+	  function tryReserve() {
+	    tryCount++;
+	    console.log('🔄 시도 횟수:', tryCount);
+
+	    // 날짜 선택
+	    const dateBtn = document.querySelector(\`button[data-date="\${CONFIG.visitDate}"]\`);
+	    if (dateBtn) dateBtn.click();
+
+	    // 인원 수 선택
+	    const countSelect = document.querySelector('select[name="ticketCount"]');
+	    if (countSelect) countSelect.value = CONFIG.ticketCount;
+
+	    // 예약 버튼
+	    const reserveBtn =
+	      document.querySelector('.btn-reserve') ||
+	      document.querySelector('button[type="submit"]');
+
+	    if (reserveBtn && !reserveBtn.disabled) {
+	      console.log('✅ 예약 버튼 클릭!');
+	      reserveBtn.click();
+	      alert('🌿 화담숲 예약을 시도합니다! 결제를 진행하세요.');
+	      return;
+	    }
+
+	    setTimeout(tryReserve, CONFIG.retryInterval);
+	  }
+
+	  console.log('⚙️ 설정값:', CONFIG);
+	  console.log('🚀 자동 예약 시작');
+	  tryReserve();
+
+	  window.stopHwadam = function () {
+	    console.log('⏹️ 자동예약 중지');
+	    location.reload();
+	  };
+
+	  console.log('💡 중지하려면 stopHwadam() 실행');
+	})();`,
+
+            ktx: `// KTX 자동예매 스크립트
+// 사용법: 코레일 예매 페이지에서 F12 → Console 탭에 붙여넣기
+
+(function() {
+  console.log('🚄 KTX 자동예매 스크립트 시작');
+  
+  // 설정값
+  const CONFIG = {
+    departureStation: '서울',    // 출발역
+    arrivalStation: '부산',      // 도착역
+    departureDate: '20250201',   // 출발일 (YYYYMMDD)
+    trainType: 'KTX',            // 열차종류 (KTX, ITX 등)
+    passengers: {
+      adult: 1,                  // 어른
+      child: 0,                  // 어린이
+      senior: 0                  // 경로
+    },
+    preferredTime: '06',         // 희망 출발시간 (HH)
+    retryInterval: 100,          // 재시도 간격 (ms)
+  };
+  
+  let attemptCount = 0;
+  let isRunning = true;
+  
+  // 좌석 조회 및 예약 함수
+  async function findAndReserve() {
+    if (!isRunning) return;
+    
+    attemptCount++;
+    console.log(\`🔍 조회 시도 #\${attemptCount}\`);
+    
+    try {
+      // 조회하기 버튼 클릭
+      const inquiryBtn = document.querySelector('#search_top_tag') ||
+                        document.querySelector('.btn_inq') ||
+                        document.querySelector('img[alt="조회하기"]');
+      
+      if (inquiryBtn) {
+        inquiryBtn.click();
+        
+        // 결과 확인
+        setTimeout(() => {
+          // 예약 가능한 열차 찾기
+          const trains = document.querySelectorAll('tr[id^="tableResult"]');
+          
+          for (let train of trains) {
+            const reserveBtn = train.querySelector('a[href*="reservation"]') ||
+                              train.querySelector('.btn_res');
+            
+            if (reserveBtn && !reserveBtn.classList.contains('disabled')) {
+              console.log('✅ 예약 가능한 열차 발견!');
+              reserveBtn.click();
+              
+              alert('🎉 예약 가능한 좌석을 찾았습니다!\\n빠르게 결제를 진행하세요.');
+              isRunning = false;
+              return;
+            }
+          }
+          
+          // 좌석이 없으면 재시도
+          if (isRunning) {
+            setTimeout(findAndReserve, CONFIG.retryInterval);
+          }
+        }, 800);
+      }
+    } catch (error) {
+      console.error('❌ 오류:', error);
+      if (isRunning) {
+        setTimeout(findAndReserve, CONFIG.retryInterval);
+      }
+    }
+  }
+  
+  // 출발/도착역 및 날짜 자동 입력
+  function autoFillForm() {
+    try {
+      // 출발역
+      const start = document.querySelector('input[name="start"]');
+      if (start) start.value = CONFIG.departureStation;
+      
+      // 도착역  
+      const arrive = document.querySelector('input[name="arrive"]');
+      if (arrive) arrive.value = CONFIG.arrivalStation;
+      
+      // 날짜
+      const date = document.querySelector('input[name="s_date"]');
+      if (date) date.value = CONFIG.departureDate;
+      
+      console.log('✅ 예매 정보 자동 입력 완료');
+    } catch (error) {
+      console.log('⚠️ 자동 입력 실패 - 수동으로 입력해주세요');
+    }
+  }
+  
+  // 시작
+  console.log('⚙️ 설정:', CONFIG);
+  autoFillForm();
+  
+  console.log('🚀 자동 예매 시작!');
+  console.log('💡 중지하려면: stopKTX() 입력');
+  
+  setTimeout(findAndReserve, 1000);
+  
+  // 중지 함수
+  window.stopKTX = function() {
+    isRunning = false;
+    console.log('⏹️ 자동예매 중지됨');
+  };
+})();`,
+
+            interpark: `// 인터파크 티켓 자동예매 스크립트
+// 사용법: 인터파크 예매 페이지에서 F12 → Console 탭에 붙여넣기
+
+(function() {
+  console.log('🎫 인터파크 자동예매 스크립트 시작');
+  
+  // 설정값
+  const CONFIG = {
+    targetDate: '2025-02-01',    // 목표 날짜
+    targetTime: '14:00',         // 목표 시간대
+    seatGrade: 'R',              // R석, S석, A석 등
+    quantity: 1,                 // 티켓 수량
+    retryInterval: 50,           // 재시도 간격 (ms) - 빠를수록 유리
+    autoClickSpeed: 30,          // 클릭 속도 (ms)
+  };
+  
+  let attemptCount = 0;
+  let isRunning = true;
+  
+  // 예매 버튼 클릭 함수
+  async function clickReserveButton() {
+    if (!isRunning) return;
+    
+    attemptCount++;
+    if (attemptCount % 100 === 0) {
+      console.log(\`🔄 시도 횟수: \${attemptCount}\`);
+    }
+    
+    try {
+      // 예매하기 버튼 찾기
+      const reserveBtn = document.querySelector('.btnReserve') ||
+                        document.querySelector('#btnReservation') ||
+                        document.querySelector('a[href*="reservation"]') ||
+                        document.querySelector('.btn-reservation') ||
+                        Array.from(document.querySelectorAll('a, button'))
+                          .find(el => el.textContent.includes('예매하기'));
+      
+      if (reserveBtn && !reserveBtn.classList.contains('disabled')) {
+        console.log('✅ 예매 버튼 발견!');
+        reserveBtn.click();
+        
+        // 날짜 선택
+        setTimeout(() => {
+          selectDateAndSeat();
+        }, 200);
+        
+        return;
+      }
+      
+      // 계속 재시도
+      setTimeout(clickReserveButton, CONFIG.retryInterval);
+      
+    } catch (error) {
+      console.error('오류:', error);
+      setTimeout(clickReserveButton, CONFIG.retryInterval);
+    }
+  }
+  
+  // 날짜 및 좌석 선택
+  function selectDateAndSeat() {
+    try {
+      // 날짜 선택
+      const dateElements = document.querySelectorAll('.date-cell, .calendar-date');
+      for (let dateEl of dateElements) {
+        if (dateEl.textContent.includes(CONFIG.targetDate) ||
+            dateEl.getAttribute('data-date') === CONFIG.targetDate) {
+          console.log('📅 날짜 선택:', CONFIG.targetDate);
+          dateEl.click();
+          break;
+        }
+      }
+      
+      // 시간 선택
+      setTimeout(() => {
+        const timeElements = document.querySelectorAll('.time-option, .playSeq');
+        for (let timeEl of timeElements) {
+          if (timeEl.textContent.includes(CONFIG.targetTime)) {
+            console.log('⏰ 시간 선택:', CONFIG.targetTime);
+            timeEl.click();
+            break;
+          }
+        }
+        
+        // 좌석 선택
+        setTimeout(() => {
+          selectSeats();
+        }, 300);
+      }, 300);
+      
+    } catch (error) {
+      console.error('날짜/시간 선택 오류:', error);
+    }
+  }
+  
+  // 좌석 선택
+  function selectSeats() {
+    try {
+      console.log('🪑 좌석 선택 시작');
+      
+      // 좌석 등급 선택
+      const gradeBtn = document.querySelector(\`button[data-grade="\${CONFIG.seatGrade}"]\`) ||
+                      document.querySelector(\`.grade-\${CONFIG.seatGrade}\`);
+      
+      if (gradeBtn) {
+        gradeBtn.click();
+        console.log('✅ 좌석 등급 선택:', CONFIG.seatGrade);
+      }
+      
+      // 수량 선택
+      setTimeout(() => {
+        const quantityInput = document.querySelector('input[name="quantity"]') ||
+                             document.querySelector('.quantity-input');
+        if (quantityInput) {
+          quantityInput.value = CONFIG.quantity;
+          
+          // 변경 이벤트 트리거
+          quantityInput.dispatchEvent(new Event('change', { bubbles: true }));
+          quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        
+        // 좌석 선택 완료 후 다음 단계
+        setTimeout(() => {
+          const nextBtn = document.querySelector('.btn-next') ||
+                         document.querySelector('#nextBtn') ||
+                         document.querySelector('button[type="submit"]');
+          
+          if (nextBtn) {
+            console.log('✅ 다음 단계로 이동');
+            nextBtn.click();
+            
+            alert('🎉 예매 진행 중!\\n빠르게 결제를 완료하세요!');
+            isRunning = false;
+          }
+        }, CONFIG.autoClickSpeed);
+      }, CONFIG.autoClickSpeed);
+      
+    } catch (error) {
+      console.error('좌석 선택 오류:', error);
+    }
+  }
+  
+  // 스크립트 시작
+  console.log('⚙️ 설정:', CONFIG);
+  console.log('🚀 자동 예매 시작!');
+  console.log('⚡ 재시도 간격:', CONFIG.retryInterval + 'ms');
+  console.log('💡 중지: stopInterpark() 입력');
+  
+  clickReserveButton();
+  
+  // 중지 함수
+  window.stopInterpark = function() {
+    isRunning = false;
+    console.log('⏹️ 자동예매 중지');
+  };
+})();`
+        };
+
+        const instructions = {
+            srt: [
+                "SRT 홈페이지(https://etk.srail.kr)에 접속합니다",
+                "로그인을 완료합니다",
+                "예매하기 페이지로 이동합니다",
+                "F12 키를 눌러 개발자 도구를 엽니다",
+                "Console 탭을 클릭합니다",
+                "스크립트를 복사하여 붙여넣고 Enter를 누릅니다",
+                "스크립트가 자동으로 좌석을 찾기 시작합니다",
+                "좌석이 발견되면 자동으로 예약 화면으로 이동합니다"
+            ],
+            ktx: [
+                "코레일 홈페이지(https://www.letskorail.com)에 접속합니다",
+                "로그인을 완료합니다",
+                "승차권 예매 페이지로 이동합니다",
+                "출발역, 도착역, 날짜를 설정합니다",
+                "F12 키를 눌러 개발자 도구를 엽니다",
+                "Console 탭을 클릭합니다",
+                "스크립트를 복사하여 붙여넣고 Enter를 누릅니다",
+                "자동으로 좌석 조회가 시작됩니다"
+            ],
+            interpark: [
+                "인터파크 티켓(https://tickets.interpark.com)에 접속합니다",
+                "로그인을 완료합니다",
+                "예매하려는 공연/콘서트 페이지로 이동합니다",
+                "F12 키를 눌러 개발자 도구를 엽니다",
+                "Console 탭을 클릭합니다",
+                "스크립트의 CONFIG 부분에서 날짜/시간/좌석 등급을 수정합니다",
+                "스크립트를 복사하여 붙여넣고 Enter를 누릅니다",
+                "예매 오픈 시간에 자동으로 클릭이 시작됩니다"
+            ],
+	        hwa: [
+	            "화담숲 공식 예약 페이지에 접속합니다",
+	            "로그인을 완료합니다",
+	            "예약 날짜 선택 화면으로 이동합니다",
+	            "F12 키를 눌러 Console 탭을 엽니다",
+	            "스크립트를 붙여넣고 Enter를 누릅니다",
+	            "예약 버튼이 활성화되면 자동으로 클릭됩니다"
+	          ]
+        };
+
+        // Functions
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+        }
+        
+       
+        function goScriptPage(siteId) {
+          if(!window.loginId){ // common.js 스코프(id 값 들고오기)
+       	    alert("로그인이 필요합니다.");
+       	    location.href = "/boardEx/login";
+       	    return;
+          }		
+        	
+          // ✅ 사용 횟수 증가
+          fetch('/boardEx/scripts/use', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'siteId=' + encodeURIComponent(siteId)
+          });
+
+          if (siteId === 'srt') {
+            location.href = '/boardEx/autoScripts/srt';
+            return;
+          }
+
+          alert('🚧 해당 자동예매 기능은 현재 개발 중입니다.');
+        }
+		
+        function viewScript(siteId) {
+            currentSite = sites.find(s => s.id === siteId);
+            if (!currentSite) return;
+
+            document.getElementById('modalTitle').textContent = currentSite.name + ' 자동예매 스크립트';
+            document.getElementById('modalDescription').textContent = `아래 스크립트를 복사하여 ${currentSite.name} 사이트의 콘솔 창에 붙여넣으세요`;
+            document.getElementById('scriptCode').textContent = scripts[siteId];
+            
+            
+            const instructionSteps = instructions[siteId].map((inst, i) => `
+                <div class="instruction-step">
+                    <div class="step-number">${i + 1}</div>
+                    <div style="flex: 1; padding-top: 0.25rem;">${inst}</div>
+                </div>
+            `).join('');
+            
+            /* 모달 유지 / URL 변경은 history.pushState로만 하고 이동은 안함 */
+            history.pushState(null, '', '/boardEx/scripts?siteId=' + siteId);
+            
+            document.getElementById('instructionSteps').innerHTML = instructionSteps;
+            
+            document.getElementById('scriptModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('scriptModal').classList.remove('active');
+            location.href = '/boardEx/scripts';
+        }
+
+        function copyScript() {
+            const code = document.getElementById('scriptCode').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                alert('✅ 스크립트가 클립보드에 복사되었습니다!');
+            });
+        }
+
+        function downloadScript() {
+            if (!currentSite) return;
+            
+            const code = scripts[currentSite.id];
+            const blob = new Blob([code], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${currentSite.id}-auto-booking.js`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            alert('✅ 스크립트 파일이 다운로드되었습니다!');
+        }
+
+        function goToSite() {
+            if (currentSite) {
+                window.open(currentSite.url, '_blank');
+            }
+        }
+
+        function likePost(postId) {
+            const post = posts.find(p => p.id === postId);
+            if (post) {
+                post.likes++;
+                document.getElementById(`likes-${postId}`).textContent = post.likes;
+            }
+        }
+
+        function openCreatePost() {
+            const author = prompt('작성자 이름을 입력하세요:');
+            if (!author) return;
+            
+            const siteName = prompt('추천하고 싶은 사이트명을 입력하세요:');
+            if (!siteName) return;
+            
+            const description = prompt('설명을 입력하세요 (왜 필요한지, 어떤 기능이 필요한지):');
+            if (!description) return;
+            
+            const newPost = {
+                id: Date.now().toString(),
+                author,
+                siteName,
+                category: '티케팅',
+                description,
+                likes: 0,
+                comments: 0,
+                createdAt: new Date().toISOString().split('T')[0]
+            };
+            
+            posts.unshift(newPost);
+            renderPosts();
+            document.getElementById('postCount').textContent = posts.length + '개';
+            document.getElementById('communityBadge').textContent = `(${posts.length})`;
+            
+            alert('✅ 사이트 추천이 등록되었습니다! 검토 후 승인됩니다.');
+        }
+
+        // Close modal on outside click
+        document.getElementById('scriptModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+                /* 
+                	기존 => 모달창을 닫을 시 siteId 값이 유지가 되어 새고고침 하면 다시 모달창이 뜸 
+                	변경 => location을 통해 scripts.html로 이동
+                */
+                location.href = '/boardEx/scripts';
+            }
+        });
+		
+        const scrollTopBtn = document.getElementById("scroll-top");
+
+        // 스크롤 시 버튼 표시
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 300) {
+            scrollTopBtn.classList.add("show");
+          } else {
+            scrollTopBtn.classList.remove("show");
+          }
+        });
+
+        // 클릭 시 맨 위로 이동
+        scrollTopBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+        });
+        
+        function goToCommunity() {
+        	location.href= "/boardEx/community"
+        }
+        
+</script>
+
+<!-- ✅ Disclaimer Modal (footer 밖에 있어야 함) -->
+<div id="disclaimerModal" class="modal" aria-hidden="true">
+  <div class="modal-content" style="color: #1e293b;">
+    <div class="modal-header">
+      <h2 class="modal-title">⚠️ 주의사항 및 면책조항</h2>
+      <p class="subtitle">스크립트 사용 전 반드시 확인해주세요</p>
+    </div>
+
+    <div class="modal-body">
+      <ul style="padding-left: 1.5rem; font-size: 0.875rem;">
+        <li>본 스크립트는 교육 및 참고 목적으로 제공됩니다</li>
+        <li>스크립트 사용으로 인한 모든 책임은 사용자에게 있습니다</li>
+        <li>과도한 요청으로 인한 서버 부하 및 IP 차단에 유의하세요</li>
+        <li>각 사이트의 이용약관을 준수하며 사용하시기 바랍니다</li>
+        <li>예매 성공을 보장하지 않으며, 실제 예매는 해당 사이트 정책에 따릅니다</li>
+      </ul>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline" data-close>닫기</button>
+    </div>
+  </div>
+</div>
+
+<!-- footer부분을 footer.html으로 대체하여 유지보수 편리성 확보  -->    
+<div th:replace="~{boardEx/footer :: footer}"></div>
+</body>
+<script src="/assets/js/common.js" defer></script>
+<script>
+function addMyScript(siteId) {
+  if (!confirm('내 스크립트에 추가 하시겠습니까?')) return;
+
+  fetch('/boardEx/favoriteAdd', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'siteId=' + siteId
+  })
+  .then(res => {
+    console.log('status:', res.status);
+
+    if (res.status === 401) {
+      alert('로그인이 필요합니다');
+      location.href = '/boardEx/login';
+      return;
+    }
+
+    if (res.status === 409) {
+      alert('이미 즐겨찾기 되어있습니다');
+      return;
+    }
+
+    if (!res.ok) {
+      alert('서버 오류');
+      return;
+    }
+
+    alert('즐겨찾기에 추가되었습니다 ⭐');
+    location.href = '/boardEx/favorites';
+  });
+}
+</script>
+
+</html>

@@ -1,0 +1,22 @@
+# ===== Spring / Java =====
+/build
+/target
+/.gradle
+/bin
+/out
+*.log
+
+# ===== IDE =====
+.idea
+.vscode
+*.iml
+
+# ===== Config (절대 업로드 금지) =====
+application.yml
+application.properties
+.env
+
+# ===== Front =====
+node_modules
+# ===== Eclipse =====
+.metadata

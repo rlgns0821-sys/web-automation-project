@@ -1,0 +1,20 @@
+2026/02/03-18:36:14.455 62fc Creating DB C:\1900_web_erik\00_exSpring\dev\boardEx\bots\user_data_bot\Default\IndexedDB\https_accounts.yanolja.com_0.indexeddb.leveldb since it was missing.
+2026/02/03-18:36:14.458 62fc Reusing MANIFEST C:\1900_web_erik\00_exSpring\dev\boardEx\bots\user_data_bot\Default\IndexedDB\https_accounts.yanolja.com_0.indexeddb.leveldb/MANIFEST-000001
+2026/02/03-18:36:14.474 9110 Level-0 table #5: started
+2026/02/03-18:36:14.476 9110 Level-0 table #5: 755 bytes OK
+2026/02/03-18:36:14.476 9110 Delete type=0 #3
+2026/02/03-18:36:14.477 62fc Manual compaction at level-0 from '\x00\x01\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x02\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/02/03-18:36:16.237 605c Level-0 table #7: started
+2026/02/03-18:36:16.241 605c Level-0 table #7: 3470 bytes OK
+2026/02/03-18:36:16.241 605c Delete type=0 #4
+2026/02/03-18:36:16.242 62fc Manual compaction at level-0 from '\x00\x04\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x05\x00\x00\x00' @ 0 : 0; will stop at (end)
+2026/02/03-18:36:44.888 605c Level-0 table #9: started
+2026/02/03-18:36:44.889 605c Level-0 table #9: 2063 bytes OK
+2026/02/03-18:36:44.890 605c Delete type=0 #6
+2026/02/03-18:36:44.890 62fc Manual compaction at level-0 from '\x00\x05\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at '\x00\x05\x00\x00\x05' @ 197 : 1
+2026/02/03-18:36:44.891 62fc Compacting 1@0 + 1@1 files
+2026/02/03-18:36:44.892 62fc Generated table #10@0: 89 keys, 2194 bytes
+2026/02/03-18:36:44.893 62fc Compacted 1@0 + 1@1 files => 2194 bytes
+2026/02/03-18:36:44.893 62fc compacted to: files[ 0 1 1 0 0 0 0 ]
+2026/02/03-18:36:44.893 62fc Delete type=2 #9
+2026/02/03-18:36:44.894 62fc Manual compaction at level-0 from '\x00\x05\x00\x00\x05' @ 197 : 1 .. '\x00\x06\x00\x00\x00' @ 0 : 0; will stop at (end)

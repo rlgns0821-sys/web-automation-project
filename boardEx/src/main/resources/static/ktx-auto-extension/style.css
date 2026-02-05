@@ -1,0 +1,61 @@
+/* 매크로 제어 UI 전체 컨테이너 스타일 */
+#macroContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f7f7f7;
+    margin-bottom: 20px;
+}
+
+/* 매크로 실행/취소 버튼 기본 스타일 */
+#macroButton {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#macroButton:hover {
+    background-color: #e0e0e0;
+}
+
+/* 매크로가 '실행 취소'(실행 중) 상태일 때의 버튼 스타일 */
+#macroButton.running {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+/* 시간 입력 필드 스타일 */
+#macroIntervalInput {
+    width: 70px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 열차 목록에 추가된 체크박스 스타일 */
+.macro-checkbox {
+    /* 사이트의 다른 CSS가 덮어쓰지 못하도록 !important 사용 */
+    -webkit-appearance: checkbox !important; /* 브라우저 기본 체크박스 모양 강제 */
+    appearance: checkbox !important;
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    width: 16px !important;
+    height: 16px !important;
+    transform: scale(1.5); /* 크기 확대 */
+    margin-right: 10px !important;
+    cursor: pointer;
+    z-index: 9999;
+    border: 1px solid #888 !important; /* 테두리를 명시적으로 지정 */
+    background-color: #fff !important; /* 배경색을 명시적으로 지정 */
+}

@@ -1,0 +1,2246 @@
+/*!
+ _ _  _
+| | || | ticket-desktop v3.5.30
+| | || | INTERPARK UI Development Team
+`___'|_| /styles/pages/main/main.scss
+
+*/
+.popup {
+  z-index: 9999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+}
+
+.popup button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.popup:before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.popup .popupInner {
+  display: inline-block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 500px;
+  margin: auto;
+  vertical-align: middle;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.popup.jinroGuide,
+.popup.etbsGuide {
+  color: #333;
+  line-height: 1.4;
+}
+
+.popup.jinroGuide .popupInner,
+.popup.etbsGuide .popupInner {
+  width: 488px;
+  border: 1px solid #7d7d7d;
+}
+
+.popup.jinroGuide .popupBody,
+.popup.etbsGuide .popupBody {
+  padding: 34px 9px 15px;
+}
+
+.popup.jinroGuide .popupBody .title,
+.popup.etbsGuide .popupBody .title {
+  margin-top: 23px;
+}
+
+.popup.jinroGuide .popupBody .title .subTxt,
+.popup.etbsGuide .popupBody .title .subTxt {
+  display: block;
+  margin-top: 10px;
+}
+
+.popup.jinroGuide .popupBody .subTxt,
+.popup.etbsGuide .popupBody .subTxt {
+  margin-top: 13px;
+  color: #999;
+  font-size: 13px;
+}
+
+.popup.jinroGuide .popupBody .guideDesc,
+.popup.etbsGuide .popupBody .guideDesc {
+  margin-top: 26px;
+  padding: 21px 28px;
+  color: #1d9dff;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: left;
+  background: #f1f1f1;
+  list-style-type: decimal;
+}
+
+.popup.jinroGuide .popupBody .guideDesc > li,
+.popup.etbsGuide .popupBody .guideDesc > li {
+  margin-top: 29px;
+}
+
+.popup.jinroGuide .popupBody .guideDesc > li:first-child,
+.popup.etbsGuide .popupBody .guideDesc > li:first-child {
+  margin-top: 0;
+}
+
+.popup.jinroGuide .popupBody .guideDesc strong,
+.popup.etbsGuide .popupBody .guideDesc strong {
+  display: block;
+}
+
+.popup.jinroGuide .popupBody .guideDesc p, .popup.jinroGuide .popupBody .guideDesc .subList,
+.popup.etbsGuide .popupBody .guideDesc p,
+.popup.etbsGuide .popupBody .guideDesc .subList {
+  margin-top: 3px;
+  color: #666;
+  font-weight: normal;
+}
+
+.popup.jinroGuide .popupBody .guideDesc .subList li,
+.popup.etbsGuide .popupBody .guideDesc .subList li {
+  position: relative;
+  margin-top: 6px;
+}
+
+.popup.jinroGuide .popupBody .guideDesc .subList li:before,
+.popup.etbsGuide .popupBody .guideDesc .subList li:before {
+  content: "-";
+  position: absolute;
+  left: -8px;
+}
+
+.popup.jinroGuide .popupFooter,
+.popup.etbsGuide .popupFooter {
+  position: relative;
+  padding: 8px 10px;
+  text-align: left;
+  line-height: 1;
+}
+
+.popup.jinroGuide .popupFooter input,
+.popup.etbsGuide .popupFooter input {
+  margin: 0;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.popup.jinroGuide .popupFooter label,
+.popup.etbsGuide .popupFooter label {
+  color: #333;
+  font-size: 11px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.popup.jinroGuide .popupFooter .closeBtn,
+.popup.etbsGuide .popupFooter .closeBtn {
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 36px;
+  height: 36px;
+  text-indent: 100%;
+  white-space: nowrap;
+  background: url("//ticketimage.interpark.com/TicketImage/uidev/desktop/images/pages/main/jinro/pop_guide_close.gif") no-repeat center;
+}
+
+.popup.etbsGuide {
+  color: #666;
+}
+
+.popup.etbsGuide .popupBody {
+  padding: 39px 9px 14px;
+}
+
+.popup.etbsGuide .popupBody .title {
+  margin-top: 30px;
+}
+
+.popup.etbsGuide .popupBody .title .subTxt {
+  margin-top: 20px;
+}
+
+.popup.etbsGuide .popupBody .subTxt {
+  font-size: 12px;
+}
+
+.popup.etbsGuide .popupBody .guideDesc {
+  margin-top: 28px;
+  padding: 21px 28px;
+}
+
+.popup.etbsGuide .popupBody .guideDesc > li {
+  margin-top: 21px;
+}
+
+.popup.etbsGuide .popupBody .guideDesc .subList li .colPoint {
+  color: #ef3e43;
+}
+
+.popup.etbsGuide .popupFooter {
+  padding: 11px 10px;
+}
+
+.popup.etbsGuide .popupFooter label {
+  color: #33333b;
+}
+
+.popup.etbsGuide .popupFooter .closeBtn {
+  background: url("//ticketimage.interpark.com/TicketImage/uidev/desktop/images/pages/main/etbs/pop_guide_close.gif") no-repeat center;
+}
+
+.contentWrap {
+  width: 960px;
+  margin: 0 auto;
+  font-size: 12px;
+  padding-bottom: 50px;
+}
+
+.mainVisual {
+  position: relative;
+  height: 416px;
+}
+
+.mainVisual table {
+  width: 100%;
+}
+
+.mainVisual table td {
+  height: 416px;
+}
+
+.mainVisualWrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100%;
+  height: 416px;
+}
+
+.mainVisualWrap .contentWrap {
+  position: relative;
+  height: 416px;
+  padding-bottom: 0;
+}
+
+.mainVisualWrap .contentWrap .btn_mainVisualDetail {
+  position: absolute;
+  left: 59px;
+  bottom: 70px;
+  width: 105px;
+  height: 33px;
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual {
+  position: absolute;
+  top: 28px;
+  right: 1px;
+  width: 222px;
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual li {
+  float: left;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual li a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 63px;
+  height: 63px;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual li a.on, .mainVisualWrap .contentWrap ul.thumb_mainVisual li a.selected {
+  top: 0;
+  left: 0;
+  width: 59px;
+  height: 59px;
+  background: none;
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual li a.on:before, .mainVisualWrap .contentWrap ul.thumb_mainVisual li a.selected:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ff574b;
+}
+
+.mainVisualWrap .contentWrap ul.thumb_mainVisual li img {
+  width: 64px;
+  height: 64px;
+}
+
+.magazineWrap {
+  display: none;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 416px;
+  z-index: 3;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/magazineBg.png");
+}
+
+.magazineWrap .magazineClose {
+  display: block;
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  margin-left: 500px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/magazineClose.png") 0 0 no-repeat;
+}
+
+.magazineWrap .contentWrap {
+  position: relative;
+  height: 416px;
+  text-align: left;
+  font-size: 0;
+  line-height: 0;
+}
+
+.magazineWrap .contentWrap > img,
+.magazineWrap .contentWrap > div {
+  float: left;
+}
+
+.magazineWrap .contentWrap #target_coverstorymain {
+  width: 960px;
+}
+
+.magazineWrap .contentWrap #target_coverstorymain img {
+  float: none;
+  width: 960px;
+  height: 416px;
+}
+
+.magazineWrap .contentWrap ul {
+  display: none;
+  float: left;
+  width: 235px;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: top;
+}
+
+.magazineWrap .contentWrap ul li {
+  float: left;
+  width: 215px;
+  height: 83px;
+  padding-top: 20px;
+  padding-left: 20px;
+  bottom: 1px solid #494a4d;
+  background: #55565a;
+}
+
+.magazineWrap .contentWrap ul li:first-child {
+  height: 84px;
+  border-top: 0;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg {
+  float: left;
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin-right: 13px;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg img {
+  width: 60px;
+  height: 60px;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg a {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 60px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") 0 -49px no-repeat;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg a.playDBTitle {
+  overflow: hidden;
+  float: left;
+  display: block;
+  width: 120px;
+  height: 20px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #fff;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg a.playDBInfo {
+  overflow: hidden;
+  float: left;
+  width: 120px;
+  height: 35px;
+  text-decoration: none;
+  line-height: 17px;
+  color: #b2b2b2;
+}
+
+.magazineWrap .contentWrap ul li .playDBImg a.playDBAuthor {
+  overflow: hidden;
+  float: left;
+  width: 120px;
+  height: 17px;
+  text-align: right;
+  text-decoration: none;
+  line-height: 17px;
+  color: #b2b2b2;
+}
+
+.banner_longBannerArea1 {
+  position: relative;
+  height: 63px;
+  z-index: 2;
+  text-align: left;
+}
+
+.banner_longBannerArea1 .movingBanner {
+  position: absolute;
+  left: 488px;
+  top: 0;
+}
+
+.banner_longBannerArea1 .movingBanner img {
+  position: relative;
+  z-index: 2;
+  vertical-align: top;
+}
+
+.banner_longBannerArea1 .arrowBanner {
+  position: absolute;
+  right: 13px;
+  bottom: 15px;
+  z-index: 3;
+}
+
+.banner_longBannerArea1 .arrowBanner .bannerUp {
+  display: block;
+}
+
+.banner_longBannerArea1 .arrowBanner .bannerDown {
+  display: none;
+}
+
+.banner_longBannerArea1 .arrowBanner .arrowBanner.open {
+  right: 11px;
+}
+
+.banner_longBannerArea1 .arrowBanner .arrowBanner.open .bannerUp {
+  display: none;
+}
+
+.banner_longBannerArea1 .arrowBanner .arrowBanner.open .bannerDown {
+  display: block;
+}
+
+.mainArea2 {
+  position: relative;
+  height: 211px;
+  margin-bottom: 30px;
+  z-index: 4;
+}
+
+.mainArea2 .ticketOpenWrap {
+  float: left;
+  position: relative;
+  width: 450px;
+  height: 46px;
+  padding-top: 163px;
+  padding-left: 20px;
+  margin-right: 16px;
+  border: 1px solid #d9d9d9;
+  z-index: 3;
+}
+
+.mainArea2 .ticketOpenWrap a.ticketOpenBanner {
+  display: none;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.mainArea2 .ticketOpenWrap a.ticketOpenBanner.selected {
+  display: block;
+}
+
+.mainArea2 .ticketOpenWrap a.ticketOpenBanner img {
+  vertical-align: top;
+}
+
+.mainArea2 .ticketOpenWrap a.ticketOpenBanner img:first-child {
+  margin-right: 5px;
+}
+
+.mainArea2 .ticketOpenWrap a.ticketOpenBanner span {
+  position: absolute;
+  top: 108px;
+  left: 20px;
+  z-index: 1;
+}
+
+.mainArea2 .ticketOpenWrap div {
+  overflow: hidden;
+  position: relative;
+  width: 240px;
+  height: 42px;
+}
+
+.mainArea2 .ticketOpenWrap ul.ticketOpenTxt {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.mainArea2 .ticketOpenWrap ul.ticketOpenTxt li {
+  overflow: hidden;
+  width: 240px;
+  height: 20px;
+  text-indent: 7px;
+  text-align: left;
+  vertical-align: top;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/bullet1.gif") 0 8px no-repeat;
+}
+
+.mainArea2 .ticketOpenWrap ul.ticketOpenTxt li a {
+  line-height: 20px;
+  text-decoration: none;
+  vertical-align: top;
+  color: #222;
+}
+
+.mainArea2 .ticketOpenWrap ul.ticketOpenTxt li a:hover {
+  color: #222;
+}
+
+.mainArea2 .ticketOpen {
+  display: block;
+  position: absolute;
+  top: 21px;
+  left: 20px;
+  width: 164px;
+  height: 18px;
+  z-index: 4;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") 0 -355px;
+}
+
+.mainArea2 .moviesLayer {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 960px;
+  height: 556px;
+  z-index: 4;
+  background: #474e61;
+}
+
+.mainArea2 .moviesLayer .movieArea {
+  float: left;
+  width: 716px;
+}
+
+.mainArea2 .moviesLayer .movieArea .player {
+  width: 716px;
+  height: 441px;
+  background: #000;
+}
+
+.mainArea2 .moviesLayer .movieArea ul {
+  width: 716px;
+  height: 115px;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li {
+  float: left;
+  width: 86px;
+  height: 100px;
+  padding-top: 15px;
+  padding-left: 15px;
+  border-right: 1px solid #3c4253;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li:first-child {
+  width: 87px;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li .movieImg {
+  position: relative;
+  width: 73px;
+  height: 49px;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li .movieImg img {
+  width: 73px;
+  height: 49px;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li .movieImg a {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 67px;
+  height: 43px;
+  border: 3px solid #ff5959;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li.selected .movieImg a {
+  display: block;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li.selected .movieTitle {
+  color: #fa6464;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li.ov .movieImg a {
+  display: block;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li.ov .movieTitle {
+  color: #fa6464;
+}
+
+.mainArea2 .moviesLayer .movieArea ul li .movieTitle {
+  overflow: hidden;
+  display: block;
+  width: 73px;
+  height: 30px;
+  margin-top: 8px;
+  line-height: 15px;
+  color: #b2b2b2;
+}
+
+.mainArea2 .moviesLayer .ticketSpot {
+  float: left;
+  width: 223px;
+  height: 12px;
+  padding: 15px 0 15px 20px;
+  background: #313645;
+}
+
+.mainArea2 .moviesLayer .ticketSpot div {
+  width: 104px;
+  height: 12px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -120px -52px no-repeat;
+}
+
+.mainArea2 .moviesLayer .ticketSpot .movieLayerClose {
+  display: block;
+  position: absolute;
+  top: 13px;
+  right: 20px;
+  width: 14px;
+  height: 15px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -120px -64px no-repeat;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo {
+  float: left;
+  width: 225px;
+  padding: 20px 0 20px 19px;
+  border-bottom: 1px solid #3c4253;
+  text-align: left;
+  background: #585e73;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .counter {
+  width: 225px;
+  height: 18px;
+  margin-bottom: 17px;
+  font-style: 17px;
+  font-weight: bold;
+  text-align: left;
+  line-height: 18px;
+  vertical-align: top;
+  color: #fff;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .counter .starPoint {
+  display: inline-block;
+  width: 19px;
+  height: 18px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -134px -64px no-repeat;
+  vertical-align: top;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .counter .reviewCount {
+  display: inline-block;
+  width: 20px;
+  height: 18px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -153px -64px no-repeat;
+  vertical-align: top;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .ticketSpotTitle {
+  overflow: hidden;
+  width: 180px;
+  height: 60px;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: left;
+  line-height: 30px;
+  color: #fff;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .ticketSpotDate {
+  width: 225px;
+  margin-bottom: 7px;
+  text-align: left;
+  color: #fff;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .ticketSpotLocation {
+  width: 225px;
+  margin-bottom: 18px;
+  text-align: left;
+  color: #fff;
+}
+
+.mainArea2 .moviesLayer .ticketSpotInfo .btn_ticketSpotSubmit {
+  display: inline-block;
+  margin-left: 50px;
+}
+
+.mainArea2 .moviesLayer .ticketSpotTxt {
+  float: left;
+  overflow: hidden;
+  width: 203px;
+  height: 230px;
+  padding: 20px;
+  text-align: left;
+  line-height: 18px;
+  color: #b2b2b2;
+}
+
+.mainArea2 .moviesLayer .moreBtn {
+  position: absolute;
+  left: 736px;
+  bottom: 28px;
+  padding-right: 15px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/moreBg.gif") right 0 no-repeat;
+  color: #95bbf2;
+}
+
+.movies {
+  float: left;
+  width: 472px;
+  height: 211px;
+  background: #505769;
+}
+
+.movies .thum_movie {
+  float: left;
+  position: relative;
+  width: 301px;
+  height: 211px;
+}
+
+.movies .thum_movie > a {
+  display: none;
+}
+
+.movies .thum_movie > a.movieThum img {
+  width: 301px;
+  height: 211px;
+}
+
+.movies .thum_movie > a.selected {
+  display: block;
+}
+
+.movies .thum_movie a.playBtn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 45px;
+  margin-top: -22px;
+  margin-left: -20px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/playBtn.png") 0 0 no-repeat;
+}
+
+.movies ol {
+  float: left;
+  width: 171px;
+}
+
+.movies ol li {
+  height: 29px;
+  border-top: 1px solid #454b5b;
+}
+
+.movies ol li:first-child {
+  border-top: 0;
+  height: 31px;
+}
+
+.movies ol li:first-child a {
+  height: 31px;
+  line-height: 31px;
+}
+
+.movies ol li a {
+  overflow: hidden;
+  display: block;
+  width: 140px;
+  height: 29px;
+  padding-right: 31px;
+  text-decoration: none;
+  text-indent: 18px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 29px;
+  color: #fff;
+  background: #505769;
+}
+
+.movies ol li a:hover, .movies ol li a.selected {
+  font-weight: bold;
+  background: #596071 url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/bg_movie.png") 147px 10px no-repeat;
+  color: #95bbf2;
+}
+
+.rankings {
+  margin-bottom: 30px;
+}
+
+.rankings .rankingTitle {
+  position: relative;
+  height: 32px;
+  padding-left: 125px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -90px 5px no-repeat;
+}
+
+.rankings .rankingTitle > a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 125px;
+  height: 32px;
+}
+
+.rankings .rankingTitle ul.rankingTab {
+  font-size: 0;
+  line-height: 0;
+  text-align: left;
+}
+
+.rankings .rankingTitle ul.rankingTab li {
+  display: inline-block;
+  position: relative;
+  width: 61px;
+  height: 26px;
+  padding-top: 6px;
+  vertical-align: top;
+}
+
+.rankings .rankingTitle ul.rankingTab li a {
+  display: inline-block;
+  width: 100%;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  text-decoration: none;
+  color: #555;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -90px -30px no-repeat;
+}
+
+.rankings .rankingTitle ul.rankingTab li:first-child a {
+  background: none;
+}
+
+.rankings .rankingTitle ul.rankingTab li.type2 {
+  width: 91px;
+}
+
+.rankings .rankingTitle ul.rankingTab li.type2.selected a {
+  width: 90px;
+}
+
+.rankings .rankingTitle ul.rankingTab li.type3 {
+  width: 81px;
+}
+
+.rankings .rankingTitle ul.rankingTab li.type3.selected a {
+  width: 80px;
+}
+
+.rankings .rankingTitle ul.rankingTab li.selected a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60px;
+  height: 31px;
+  border: 1px solid #c6c6c6;
+  border-bottom: 1px solid #f8f8f8;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 27px;
+  background: #f8f8f8;
+  color: #222;
+  z-index: 1;
+}
+
+.rankings .rankingTitle .rankMore {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  left: auto;
+  width: 20px;
+  height: 19px;
+}
+
+.rankings .rankingBody {
+  overflow: hidden;
+  width: 915px;
+  height: 217px;
+  padding: 18px 37px 0 8px;
+  border-top: 1px solid #c6c6c6;
+  border-bottom: 1px solid #e1e1e1;
+  background: #f8f8f8;
+}
+
+.rankings .rankingBody .rankingContentWrap {
+  width: 943px;
+}
+
+.rankings .rankingBody .type2 .rankingContent {
+  padding: 0 25px 0 26px;
+}
+
+.rankings .rankingBody .type2 .rankingContent:first-child {
+  padding-left: 29px;
+}
+
+.rankings .rankingBody .type2 .rankingContent ul li {
+  margin-left: 18px;
+}
+
+.rankings .rankingBody .rankingContent {
+  float: left;
+  height: 210px;
+  padding: 0 28px 0 29px;
+  text-align: left;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/rankingContentBg.gif") left 6px no-repeat;
+}
+
+.rankings .rankingBody .rankingContent:first-child {
+  background: none;
+}
+
+.rankings .rankingBody .rankingContent .rankingContentTitle {
+  position: relative;
+  height: 28px;
+  padding-left: 7px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #222;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/rankingContentBullet.gif") 0 9px no-repeat;
+}
+
+.rankings .rankingBody .rankingContent .rankingContentTitle .contentMore {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  font-size: 11px;
+  font-weight: normal;
+  text-decoration: underline;
+  color: #999;
+}
+
+.rankings .rankingBody .rankingContent ul {
+  height: 175px;
+}
+
+.rankings .rankingBody .rankingContent ul li {
+  float: left;
+  position: relative;
+  width: 102px;
+  height: 175px;
+  margin-left: 23px;
+}
+
+.rankings .rankingBody .rankingContent ul li span.rankingNum {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25px;
+  height: 29px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/rankingNum_ver2.png") 0 0 no-repeat;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num2 {
+  background-position: -25px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num3 {
+  background-position: -50px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num4 {
+  background-position: -75px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num5 {
+  background-position: -100px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num6 {
+  background-position: -125px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li span.num7 {
+  background-position: -150px 0;
+}
+
+.rankings .rankingBody .rankingContent ul li:first-child {
+  margin-left: 0;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdImg {
+  display: block;
+  width: 100px;
+  margin-bottom: 6px;
+  border: 1px solid #e4e4e4;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdImg img {
+  width: 100px;
+  height: 129px;
+  vertical-align: top;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName {
+  overflow: hidden;
+  display: block;
+  width: 102px;
+  font-size: 13px;
+  line-height: 16px;
+  color: #33333b;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdImgNew {
+  width: 99px;
+  height: 131px;
+  margin-bottom: 3px;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdImgNew img {
+  width: 100%;
+  height: 100%;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdTxt {
+  float: left;
+  width: 79px;
+  height: 30px;
+  line-height: 15px;
+  text-align: left;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdMove {
+  float: left;
+  width: 21px;
+  padding-top: 2px;
+  text-align: left;
+  text-indent: 10px;
+  font-weight: bold;
+  font-size: 11px;
+  color: #8a8a8a;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -90px -227px;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdMove.up {
+  background-position: -90px -170px;
+  color: #ff5b3b;
+}
+
+.rankings .rankingBody .rankingContent ul li .prdName .prdMove.down {
+  background-position: -90px -198px;
+  color: #6292f5;
+}
+
+.flexBanner {
+  margin-top: -20px;
+  margin-bottom: 23px;
+}
+
+.flexBanner img {
+  vertical-align: top;
+}
+
+.ticketToday {
+  overflow: hidden;
+  width: 960px;
+  margin-bottom: 45px;
+}
+
+.ticketToday .ticketTodayBanners {
+  width: 976px;
+  height: 340px;
+}
+
+.ticketToday .items {
+  text-align: center;
+}
+
+.ticketToday .ticketTodayCube {
+  float: left;
+  width: 228px;
+  height: 340px;
+  margin-right: 16px;
+}
+
+.ticketToday .ticketTodayCube.hasRoll {
+  position: relative;
+}
+
+.ticketToday .ticketTodayCube.hasRoll .items {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.ticketToday .ticketTodayCube.hasRoll .items.selected {
+  display: block;
+}
+
+.ticketToday .ticketTodayCube.hasRoll .items.tempTop {
+  z-index: 2;
+}
+
+.ticketToday .ticketTodayCube .items {
+  position: relative;
+}
+
+.ticketToday .ticketTodayCube .items .contents {
+  position: absolute;
+  top: 43px;
+  width: 228px;
+}
+
+.ticketToday .ticketTodayCube .items .contents .label {
+  height: 27px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/cubeLabels.png") center 100px no-repeat;
+}
+
+.ticketToday .ticketTodayCube .items .contents .contentTxt {
+  display: block;
+  padding-top: 12px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/cubeLabels.png") center -429px no-repeat;
+  text-decoration: none;
+}
+
+.ticketToday .ticketTodayCube .items .contents .contentTxt span {
+  overflow: hidden;
+  display: block;
+  width: 174px;
+  height: 15px;
+  margin: 0 auto 2px;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #999;
+}
+
+.ticketToday .ticketTodayCube .items .contents .contentTxt b {
+  overflow: hidden;
+  display: block;
+  width: 174px;
+  height: 18px;
+  margin: 0 auto;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #333;
+}
+
+.ticketToday .ticketTodayCube.only .contents .label {
+  background-position: center 0;
+}
+
+.ticketToday .ticketTodayCube.best .items .contents .label {
+  background-position: center -41px;
+}
+
+.ticketToday .ticketTodayCube.sale .items .contents .label {
+  background-position: center -82px;
+}
+
+.ticketToday .ticketTodayCube.sports .items .contents .label {
+  background-position: center -123px;
+}
+
+.ticketToday .ticketTodayCube.exhibition .items .contents .label {
+  background-position: center -164px;
+}
+
+.ticketToday .ticketTodayCube.event .items .contents {
+  top: 13px;
+}
+
+.ticketToday .ticketTodayCube.event .items .contents .label {
+  height: 67px;
+  margin-bottom: 12px;
+  background-position: center -354px;
+}
+
+.ticketToday .ticketTodayCube.toping .items .contents {
+  top: 13px;
+}
+
+.ticketToday .ticketTodayCube.toping .items .contents .label {
+  height: 67px;
+  margin-bottom: 12px;
+  background-position: center -287px;
+}
+
+.ticketToday .ticketTodayCube.goodMorning .items .contents {
+  top: 13px;
+}
+
+.ticketToday .ticketTodayCube.goodMorning .items .contents .label {
+  height: 67px;
+  margin-bottom: 12px;
+  background-position: center -220px;
+}
+
+.ticketToday .ticketTodayCube.leisure .items .contents .label {
+  background-position: center -485px;
+}
+
+.ticketToday .ticketTodayCube.tchu a,
+.ticketToday .ticketTodayCube.tchu img {
+  position: absolute;
+  left: -8px;
+}
+
+.ticketToday .ticketTodayCube .indicator {
+  display: block;
+  position: absolute;
+  top: 68px;
+  width: 14px;
+  height: 25px;
+  z-index: 3;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/ticketToday_prev.png") 0 0 no-repeat;
+}
+
+.ticketToday .ticketTodayCube .indicator.prev {
+  left: 9px;
+}
+
+.ticketToday .ticketTodayCube .indicator.next {
+  right: 9px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/ticketToday_next.png") 0 0 no-repeat;
+}
+
+.ticketToday .ticketTodayTitle {
+  height: 19px;
+  margin: 30px 0;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/ticketToday_Titles.gif") 0 0 no-repeat;
+}
+
+.ticketToday .ticketTodayTitle.concert {
+  background-position: 0 -19px;
+}
+
+.ticketToday .ticketTodayTitle.play {
+  background-position: 0 -38px;
+}
+
+.ticketToday .ticketTodayTitle.sports {
+  background-position: 0 -57px;
+}
+
+.clearFix {
+  clear: both;
+}
+
+.longBanner {
+  position: relative;
+  height: 96px;
+  margin-bottom: 27px;
+}
+
+.longBanner a {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.themeArea {
+  height: 365px;
+  margin-bottom: 30px;
+  background: #edeeee;
+}
+
+.themeArea .contentWrap {
+  text-align: center;
+}
+
+.themeArea ul.subTab {
+  padding-top: 28px;
+  line-height: 0;
+  font-size: 0;
+}
+
+.themeArea ul.subTab li {
+  display: inline-block;
+  text-align: left;
+}
+
+.themeArea ul.subTab li a {
+  padding: 0 11px;
+  line-height: 15px;
+  color: #c4b8b8;
+  font-size: 13px;
+  text-decoration: none;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") -90px -29px no-repeat;
+}
+
+.themeArea ul.subTab li a.selected {
+  color: #ff5959;
+  font-weight: bold;
+}
+
+.themeArea ul.subTab li:first-child a {
+  padding-left: 0;
+  background: none;
+}
+
+.themeArea ul.themeContents {
+  display: none;
+  margin-top: 18px;
+}
+
+.themeArea ul.themeContents.selected {
+  display: block;
+}
+
+.themeArea ul.themeContents li {
+  float: left;
+  position: relative;
+  width: 180px;
+  margin-left: 15px;
+  text-align: center;
+}
+
+.themeArea ul.themeContents li:first-child {
+  margin-left: 0;
+}
+
+.themeArea ul.themeContents li .emblem {
+  position: absolute;
+  top: 11px;
+  left: 10px;
+  width: 43px;
+  height: 43px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/mainSplite.png") 0 0 no-repeat;
+}
+
+.themeArea ul.themeContents li .emblem_goodClick {
+  background-position: 0 0;
+}
+
+.themeArea ul.themeContents li .emblem_Tiki {
+  background-position: -63px -257px;
+}
+
+.themeArea ul.themeContents li .emblem_25PerDis {
+  background-position: -126px -257px;
+}
+
+.themeArea ul.themeContents li .emblem_3000Dis {
+  background-position: -189px -257px;
+}
+
+.themeArea ul.themeContents li .emblem_Dis {
+  background-position: -253px -257px;
+}
+
+.themeArea ul.themeContents li .emblem_OnlyGoods {
+  background-position: -320px -257px;
+}
+
+.themeArea ul.themeContents li .emblem_TimeSale {
+  background-position: 0 -300px;
+}
+
+.themeArea ul.themeContents li .emblem_EarlyBooking {
+  background-position: -63px -300px;
+}
+
+.themeArea ul.themeContents li a,
+.themeArea ul.themeContents li span {
+  display: block;
+}
+
+.themeArea ul.themeContents li a.prdTxt,
+.themeArea ul.themeContents li span.prdTxt {
+  overflow: hidden;
+  width: 180px;
+  height: 17px;
+  margin-top: 16px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #222;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.themeArea ul.themeContents li a.prdDate,
+.themeArea ul.themeContents li span.prdDate {
+  margin-top: 4px;
+  color: #7f7f7f;
+}
+
+.themeArea ul.themeContents li a img,
+.themeArea ul.themeContents li span img {
+  width: 180px;
+  height: 231px;
+}
+
+.themeArea ul.themeContents li a:hover span.prdTxt, .themeArea ul.themeContents li a:hover span.prdDate {
+  text-decoration: underline;
+}
+
+.mBanner:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.mBanner a {
+  float: left;
+  display: block;
+  width: 310px;
+  height: 130px;
+  margin-left: 15px;
+}
+
+.mBanner a:first-child {
+  margin-left: 0;
+}
+
+.mBanner img {
+  width: 310px;
+  height: 130px;
+  vertical-align: top;
+}
+
+.showReview {
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.showReview p.tit, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList,
+.showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList {
+  margin-bottom: 12px;
+}
+
+.showReview p.tit a, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList a, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList a, .showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList a, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList a {
+  display: inline-block;
+  margin-right: 10px;
+  color: #888;
+}
+
+.showReview p.tit a:hover, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList a:hover, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList a:hover, .showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList a:hover, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList a:hover {
+  text-decoration: none;
+}
+
+.showReview p.tit a.on, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList a.on, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList a.on, .showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList a.on, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList a.on {
+  color: #ff5959;
+  font-weight: bold;
+}
+
+.showReview p.tit a.area, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList a.area, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList a.area, .showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList a.area, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList a.area {
+  padding-right: 12px;
+  margin: 0 0 0 20px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/hLine.jpg") right 1px no-repeat;
+}
+
+.showReview p.tit a.show, .showReview .popup.jinroGuide .popupBody .guideDesc .tit.subList a.show, .popup.jinroGuide .popupBody .guideDesc .showReview .tit.subList a.show, .showReview .popup.etbsGuide .popupBody .guideDesc .tit.subList a.show, .popup.etbsGuide .popupBody .guideDesc .showReview .tit.subList a.show {
+  margin-left: 10px;
+}
+
+.showReview a.detailBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.showInfo {
+  overflow: hidden;
+  float: left;
+  position: relative;
+  width: 473px;
+  height: 281px;
+  margin-right: 14px;
+  text-align: left;
+}
+
+.showInfo .areaShow {
+  display: inline-block;
+  height: 242px;
+  border: 1px solid #d9d9d9;
+}
+
+.showInfo .tab1 {
+  float: left;
+  clear: both;
+  width: 116px;
+  height: 244px;
+}
+
+.showInfo .tab1 li {
+  overflow: hidden;
+  height: 60px;
+  border-bottom: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  background-color: #f0f0f0;
+}
+
+.showInfo .tab1 li.last {
+  height: 59px;
+  border-bottom: 0;
+}
+
+.showInfo .tab1 li a {
+  overflow: hidden;
+  display: table-cell;
+  width: 104px;
+  height: 60px;
+  padding: 0 6px;
+  color: #7f7f7f;
+  vertical-align: middle;
+  line-height: 16px;
+}
+
+.showInfo .tab1 li.on {
+  border-right: none;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+.showInfo .tab1 li.on a {
+  color: #ff5959;
+}
+
+.showInfo .tab2 {
+  float: left;
+  clear: both;
+  width: 116px;
+  height: 244px;
+}
+
+.showInfo .tab2.tabNumber5 li {
+  height: 48px;
+}
+
+.showInfo .tab2.tabNumber5 li.last {
+  height: 46px;
+}
+
+.showInfo .tab2 li {
+  display: table;
+  overflow: hidden;
+  height: 39px;
+  border-bottom: 1px solid #d9d9d9;
+  border-right: 1px solid #d9d9d9;
+  background-color: #f0f0f0;
+  vertical-align: middle;
+}
+
+.showInfo .tab2 li.last {
+  height: 42px;
+  border-bottom: 0;
+}
+
+.showInfo .tab2 li a {
+  display: table-cell;
+  width: 104px;
+  padding: 0 6px;
+  color: #7f7f7f;
+  vertical-align: middle;
+  line-height: 16px;
+}
+
+.showInfo .tab2 li.on {
+  border-right: none;
+  background-color: #fff;
+  font-weight: bold;
+}
+
+.showInfo .tab2 li.on a {
+  color: #ff5959;
+}
+
+.showInfo .tabView {
+  overflow: hidden;
+  float: right;
+  position: relative;
+  width: 336px;
+  height: 200px;
+  margin: 22px 7px 22px 12px;
+  border-left: none;
+}
+
+.showInfo .tabView .tabViewMove {
+  position: absolute;
+  top: 0;
+  width: 335px;
+  height: auto;
+}
+
+.showInfo .tabView .tabViewMove .tabViewCell {
+  overflow: hidden;
+  width: 336px;
+  height: 200px;
+  margin-bottom: 18px;
+  vertical-align: top;
+  font-size: 0;
+  line-height: 0;
+}
+
+.showInfo .tabView a {
+  display: inline-block;
+  width: 165px;
+  margin-right: 3px;
+  margin-bottom: 18px;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.showInfo .tabView dl {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+}
+
+.showInfo .tabView dt {
+  float: left;
+  vertical-align: top;
+}
+
+.showInfo .tabView dt img {
+  width: 70px;
+  height: 90px;
+  vertical-align: top;
+}
+
+.showInfo .tabView dd {
+  float: right;
+  width: 88px;
+  padding-top: 10px;
+}
+
+.showInfo .tabView dd span {
+  overflow: hidden;
+  width: 85px;
+}
+
+.showInfo .tabView dd span.name {
+  overflow: hidden;
+  display: inline-block;
+  height: 31px;
+  margin-bottom: 29px;
+  color: #222;
+  line-height: 16px;
+}
+
+.showInfo .tabView dd span.data {
+  color: #999;
+  font-size: 10px;
+}
+
+.reviewInfo {
+  float: right;
+  overflow: hidden;
+  position: relative;
+  width: 473px;
+  height: 281px;
+  text-align: left;
+}
+
+.reviewInfo .sBanner {
+  clear: both;
+  height: 44px;
+  padding-top: 15px;
+}
+
+.reviewInfo .sBanner a {
+  display: inline-block;
+  height: 42px;
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #d9d9d9;
+}
+
+.review {
+  float: left;
+  position: relative;
+  width: 229px;
+  height: 145px;
+  padding-top: 40px;
+  margin-left: 15px;
+}
+
+.review .reviewStar {
+  position: absolute;
+  right: 0;
+  top: 17px;
+  width: 40px;
+  height: 15px;
+  color: #ff5959;
+  font-size: 15px;
+  text-align: right;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/reviewStar.gif") 0 0 no-repeat;
+  line-height: 17px;
+}
+
+.review .prdImg {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 74px;
+  width: 81px;
+  height: 81px;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: top;
+}
+
+.review .prdImg img {
+  width: 81px;
+  vertical-align: top;
+}
+
+.review .prdImg a,
+.review .prdImg .mask {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 81px;
+  height: 81px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/reviewMask.png") 0 0 no-repeat;
+}
+
+.review:first-child {
+  margin-left: 0;
+}
+
+.review a:hover {
+  text-decoration: none;
+}
+
+.review .reviewBox {
+  width: 203px;
+  height: 95px;
+  padding: 48px 12px 0;
+  border: 1px solid #d9d9d9;
+  background: #f4f4f4;
+}
+
+.review .reviewBox a,
+.review .reviewBox .titleArea,
+.review .reviewBox .reviewArea {
+  overflow: hidden;
+  display: block;
+  height: 48px;
+  padding-top: 8px;
+  text-decoration: none;
+  color: #666;
+  line-height: 16px;
+}
+
+.review .reviewBox a:first-child,
+.review .reviewBox .titleArea:first-child,
+.review .reviewBox .reviewArea:first-child {
+  width: 100%;
+  height: 27px;
+  padding-top: 0;
+  border-bottom: 1px solid #e6e6e6;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review .reviewBox b {
+  color: #555;
+}
+
+.guideIcon {
+  clear: both;
+  display: inline-block;
+  width: 100%;
+}
+
+.guideIcon ul {
+  float: left;
+  padding: 30px 0 30px 32px;
+}
+
+.guideIcon li {
+  float: left;
+  margin-right: 35px;
+  color: #666;
+  text-align: center;
+}
+
+.guideIcon li p, .guideIcon li .popup.jinroGuide .popupBody .guideDesc .subList, .popup.jinroGuide .popupBody .guideDesc .guideIcon li .subList,
+.guideIcon li .popup.etbsGuide .popupBody .guideDesc .subList, .popup.etbsGuide .popupBody .guideDesc .guideIcon li .subList {
+  margin-top: 10px;
+}
+
+.guideIcon p.call, .guideIcon .popup.jinroGuide .popupBody .guideDesc .call.subList, .popup.jinroGuide .popupBody .guideDesc .guideIcon .call.subList,
+.guideIcon .popup.etbsGuide .popupBody .guideDesc .call.subList, .popup.etbsGuide .popupBody .guideDesc .guideIcon .call.subList {
+  float: right;
+  padding: 30px 0;
+}
+
+.guideIcon a {
+  overflow: hidden;
+  display: block;
+  height: 36px;
+}
+
+.guideIcon a:hover img {
+  margin-top: -36px;
+}
+
+.noticeLine {
+  clear: both;
+  height: 27px;
+  padding: 11px 0 0 0;
+  border-top: 1px solid #d9d9d9;
+}
+
+.noticeLine .noti {
+  overflow: hidden;
+  float: left;
+  width: 790px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.noticeLine .noti img {
+  margin-bottom: -3px;
+}
+
+.noticeLine .noti a {
+  margin-left: 11px;
+  color: #666;
+}
+
+.noticeLine .btnSMS {
+  float: right;
+}
+
+.noticeLine .btnSMS a {
+  display: inline-block;
+  padding-right: 10px;
+  margin-left: 11px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/hLine.jpg") right 5px no-repeat;
+}
+
+.noticeLine .btnSMS a.last {
+  padding-right: 0;
+  background: none;
+}
+
+.bandBanner {
+  clear: both;
+  text-align: center;
+}
+
+.bandBanner img {
+  vertical-align: top;
+}
+
+#leftWing {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 91px;
+  margin-left: -576px;
+  z-index: 1;
+}
+
+#leftWing a {
+  display: block;
+  margin-bottom: 15px;
+}
+
+#leftWing a img {
+  width: 80px;
+}
+
+#rightWing {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 81px;
+  z-index: 11;
+}
+
+#rightWing .rightWingBanner {
+  display: block;
+  font-size: 0;
+  line-height: 0;
+  vertical-align: top;
+}
+
+#rightWing .wingContent {
+  width: 80px;
+  border-left: 1px solid #d4d4d4;
+  background: #fff;
+}
+
+#rightWing .wingContent a {
+  display: block;
+  width: 80px;
+  height: 30px;
+  border-bottom: 1px solid #d4d4d4;
+  line-height: 30px;
+  color: #222;
+  text-align: center;
+  text-decoration: none;
+  font-size: 11px;
+}
+
+#rightWing .wingContent a#myTicket {
+  height: 31px;
+  padding-top: 35px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/header/btn_gnbSplite.png") -237px -82px no-repeat;
+  line-height: 27px;
+}
+
+#rightWing .wingContent a.off {
+  background: #edeff0;
+  color: #7f7f7f;
+}
+
+#rightWing .wingContent a.off b.on {
+  color: #fa6464;
+}
+
+#rightWing .wingContent span {
+  display: block;
+  height: 30px;
+  border-bottom: 1px solid #d4d4d4;
+  color: #222;
+  line-height: 30px;
+  text-align: center;
+}
+
+#rightWing .wingContent .recent {
+  width: 60px;
+  height: 127px;
+  padding: 10px 10px 0;
+  background: #edeff0;
+}
+
+#rightWing .wingContent .recent .prds {
+  display: none;
+}
+
+#rightWing .wingContent .recent .prds a {
+  width: 60px;
+  height: auto;
+  border: 0;
+  line-height: 0;
+}
+
+#rightWing .wingContent .recent .prds a.prdName {
+  height: 15px;
+  margin-top: 7px;
+  color: #7f7f7f;
+  line-height: 15px;
+}
+
+#rightWing .wingContent .recent .paging {
+  width: 60px;
+  height: 14px;
+}
+
+#rightWing .wingContent .recent .paging span {
+  float: left;
+  display: block;
+  width: 50px;
+  height: 14px;
+  border: 0;
+  color: #666;
+  line-height: 14px;
+  font-size: 11px;
+  text-align: center;
+}
+
+#rightWing .wingContent .recent .paging span.pagingPrev {
+  width: 5px;
+  height: 14px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/header/btn_gnbSplite.png") -193px -91px no-repeat;
+  cursor: pointer;
+}
+
+#rightWing .wingContent .recent .paging span.pagingNext {
+  width: 5px;
+  height: 14px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/header/btn_gnbSplite.png") -198px -91px no-repeat;
+  cursor: pointer;
+}
+
+#rightWing .wingContent .recent .paging span span {
+  float: none;
+  display: inline;
+  width: auto;
+  color: #fa6464;
+}
+
+#rightWing .wingContent .btn_top {
+  display: inline;
+  font-size: 0;
+  line-height: 0;
+}
+
+.noticeLayerTable {
+  position: absolute;
+  top: 183px;
+  left: 10px;
+  z-index: 103;
+  border-collapse: collapse;
+}
+
+.noticeLayerTable td {
+  background: #ddd;
+}
+
+.noticeLayerTable td.noticeLayerTd {
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer {
+  position: static;
+  padding: 10px;
+  border: 1px solid #7d7d7d;
+  font-size: 0;
+  line-height: 0;
+  background: #fff;
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer ul li {
+  margin-bottom: 3px;
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv {
+  height: 15px;
+  padding-top: 9px;
+  color: #262628;
+  font-size: 12px;
+  line-height: 15px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv input {
+  padding: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv label {
+  line-height: 18px;
+  font-size: 11px;
+}
+
+.noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv a {
+  float: right;
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  background: url("//ticketimage.interpark.com/TicketImage/2015/20150429_main/img/popupClose.gif") 0 0 no-repeat;
+}
+
+.noticeLayerTable .noticeLayer.wide {
+  width: 473px;
+}
+
+.noticeLayerTable .noticeLayer.wide .bannerWrap {
+  overflow: hidden;
+  width: 473px;
+}
+
+.noticeLayerTable .noticeLayer.wide ul {
+  width: 476px;
+}
+
+.noticeLayerTable .noticeLayer.wide ul li {
+  float: left;
+  width: 235px;
+  margin-right: 3px;
+}
+
+.bannersWrap {
+  position: relative;
+  z-index: 100;
+  width: 960px;
+  margin: 0 auto;
+}
+
+.bannersWrap .bannersInner {
+  position: absolute;
+  top: 63px;
+  margin-left: 1070px;
+}
+
+.bannersWrap .bannersInner .smallBanner img {
+  width: 100px;
+  height: 150px;
+}
+
+.bannersWrap .bannersInner .bigBanner {
+  position: absolute;
+  top: 0;
+  left: -750px;
+  display: none;
+  width: 750px;
+  height: 320px;
+}
+
+.bannersWrap .bannersInner .bigBanner img {
+  width: 750px;
+  height: 320px;
+}
+
+.bannersWrap .bannersInner .bigBanner .closeButton {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1;
+  width: 25px;
+  height: 25px;
+  border: 0;
+  background: url("//ticketimage.interpark.com/TicketImage/uidev/desktop/images/pages/main/banner/bigBanner_close.png") no-repeat;
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
+}
+
+.bannersWrap .bannersInner > span {
+  display: block;
+}
+
+.bannersWrap .bannersInner > span img {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.bannersWrap .bannersInner.fixed {
+  position: fixed;
+  top: 63px;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  #notice_layer iframe {
+    height: 565px;
+  }
+  .noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv label {
+    line-height: 14px;
+  }
+}
+
+@-moz-document url-prefix() {
+  .noticeLayerTable td.noticeLayerTd .noticeLayer .closeDiv label {
+    line-height: 15px;
+  }
+}
+
+.allianceNotice {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  background: #f3f3f3;
+}
+
+.allianceNotice p, .allianceNotice .popup.jinroGuide .popupBody .guideDesc .subList, .popup.jinroGuide .popupBody .guideDesc .allianceNotice .subList,
+.allianceNotice .popup.etbsGuide .popupBody .guideDesc .subList, .popup.etbsGuide .popupBody .guideDesc .allianceNotice .subList {
+  width: 960px;
+  margin: 0 auto;
+  color: #666;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.allianceFooter {
+  padding: 15px 20px;
+  background: #f3f3f3;
+  text-align: center;
+}
+
+.allianceFooter .info {
+  display: inline-block;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.allianceFooter .info .InfoList {
+  display: flex;
+  margin-bottom: 4px;
+  color: #666;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: left;
+}
+
+.allianceFooter .info .InfoList dt {
+  width: 120px;
+}
+
+.allianceFooter .info .InfoList dd {
+  flex: 1;
+}

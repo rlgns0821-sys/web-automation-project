@@ -1,0 +1,62 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- ===== 댓글 Fragment ===== -->
+<div th:fragment="commentSection" id="commentSection">
+
+    <div class="comment-header">
+        💬 댓글 <span class="count" th:text="${commentList.size()}">0</span>
+    </div>
+    
+    <div id="commentLoginInfo" 
+    	 th:data-login="${session.loginName != null}">
+	</div>
+
+    <!-- 댓글 입력 -->
+    <div class="comment-write">
+        <textarea id="commentContent"
+                  placeholder="댓글을 입력하세요"
+                  maxlength="500"></textarea>
+
+        <div class="comment-write-footer">
+            <span><b id="commentLen">0</b> / 500</span>
+            <button data-post-id="[[${vo.postId}]]"
+                    onclick="submitComment()">
+                등록
+            </button>
+        </div>
+    </div>
+
+    <!-- 댓글 목록 -->
+    <div class="comment-list">
+
+        <div class="comment-item"
+             th:each="c : ${commentList}"
+             th:data-comment-id="${c.commentId}">
+
+            <div class="comment-top">
+                <span class="author" th:text="${c.author}">작성자</span>
+                <span class="date" th:text="${c.createdAt}">2026-01-07</span>
+            </div>
+
+            <div class="comment-body"
+                 th:text="${c.content}">
+                댓글 내용
+            </div>
+
+            <!-- 본인 댓글만 -->
+            <div class="comment-actions"
+                 th:if="${session.loginName == c.author}">
+                <button onclick="editComment(this)">수정</button>
+                <button onclick="deleteComment(this)">삭제</button>
+            </div>
+        </div>
+
+        <div class="comment-empty"
+             th:if="${#lists.isEmpty(commentList)}">
+            아직 댓글이 없습니다.
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

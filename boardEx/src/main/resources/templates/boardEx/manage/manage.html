@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>관리자 - 스크립트 관리</title>
+
+<link href="/assets/img/thunder_icon.png" rel="icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+
+<style>
+.btn-primary {
+           background: white;
+           color: var(--primary);
+           padding: 0.875rem 2rem;
+           border: 2px solid var(--primary);
+           border-radius: 10px;
+           font-size: 1rem;
+           font-weight: 600;
+           cursor: pointer;
+           transition: all 0.3s;
+           text-decoration: none;
+           display: inline-flex;
+           align-items: center;
+           gap: 0.5rem;
+}
+
+/* ===== 커뮤니티 검색 ===== */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    /* background: white; */
+    padding: 0.6rem;
+    border-radius: 14px;
+    /* box-shadow: 0 2px 2px rgba(0,0,0,0.06); */
+}
+
+.search-select {
+    height: 42px;
+    padding: 0 0.75rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: #fff;
+}
+
+.search-input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+}
+
+.search-btn {
+	flex-shrink: 0;    
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.search-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(99,102,241,0.4);
+}
+
+/* 모바일 대응 */
+@media (max-width: 640px) {
+    .search-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    
+}
+
+/* ================= Pagination ================= */
+	.pagination-wrapper {
+	    display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    gap: 0.6rem;
+	    margin-top: 3rem;
+	    flex-wrap: wrap;
+	}
+	
+	.page-btn {
+	    min-width: 42px;
+	    height: 42px;
+	    padding: 0 14px;
+	    border-radius: 12px;
+	    border: 1px solid var(--border);
+	    background: white;
+	    color: var(--dark);
+	    font-size: 0.95rem;
+	    font-weight: 600;
+	    display: inline-flex;
+	    align-items: center;
+	    justify-content: center;
+	    cursor: pointer;
+	    text-decoration: none;
+	    transition: all 0.25s ease;
+	}
+	
+	.page-btn:hover {
+	    background: var(--primary);
+	    color: #fff;
+	    border-color: var(--primary);
+	    transform: translateY(-2px);
+	    box-shadow: 0 8px 18px rgba(99,102,241,0.35);
+	}
+	
+	.page-btn.active {
+	    background: var(--primary);
+	    color: white;
+	    border-color: var(--primary);
+	    cursor: default;
+	    box-shadow: 0 10px 25px rgba(99,102,241,0.45);
+	}
+	
+	.page-btn.prev,
+	.page-btn.next {
+	    font-size: 1.25rem;
+	    font-weight: 700;
+	}
+	
+	@media (max-width: 480px) {
+	    .page-btn {
+	        min-width: 36px;
+	        height: 36px;
+	        font-size: 0.85rem;
+	    }
+	}
+
+/* ===== 관리자 버튼 공통 ===== */
+.btn-admin.btn-primary {
+    white-space: nowrap;   /* 텍스트 줄바꿈 방지 */
+    flex-shrink: 0;        /* flex 안에서 줄어들지 않게 */
+}
+
+
+.btn-admin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--primary);
+    transition: all 0.2s ease;
+}
+
+.btn-admin.primary {
+    background: var(--primary);
+    color: #fff;
+}
+
+.btn-admin.primary:hover {
+    background: var(--primary-dark);
+}
+
+.btn-admin.outline {
+    background: #fff;
+    color: var(--primary);
+    border: 1px solid var(--border);
+}
+
+.btn-admin.danger {
+    background: #fff;
+    color: var(--danger);
+    border: 1px solid rgba(239,68,68,0.3);
+}
+
+.admin-wrap {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    border-radius: 14px;
+    padding: 30px;
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* 왼쪽 묶음 */
+.page-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    white-space: nowrap;
+}
+
+/* 왼쪽 제목 */
+.page-header h2 {
+    white-space: nowrap;
+}
+
+/* 검색은 남는 공간만 사용 */
+.page-header .search-box {
+    flex: 1;
+    min-width: 240px;
+}
+
+/* 버튼은 절대 줄어들지 않음 */
+.page-header .btn-admin {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 14px;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    font-size: 14px;
+}
+
+th {
+    background: #f3f4f6;
+}
+
+.status-open { color: #16a34a; font-weight: 600; }
+.status-close { color: #dc2626; font-weight: 600; }
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div th:replace="~{boardEx/header :: header}"></div>
+
+<main class="main-content">
+<div class="admin-wrap">
+
+    <!-- 상단 헤더 -->
+    <div class="page-header">
+    	<div class="page-left">
+	        <h2>📂 전체 스크립트 관리</h2>
+	        <div class="count-box">
+	        	<span class="count-title">(📌 스크립트</span>
+				<span class="count-number" th:text="${paging.total}"></span>
+				<span class="count-unit">개)</span>
+			</div>
+		</div>
+        <!-- 검색 -->
+        <form action="/boardEx/manage/manage" method="get" class="search-box">
+            <select name="type" class="search-select">
+                <option value="ID" th:selected="${criteria.type == 'ID'}">ID</option>
+                <option value="N" th:selected="${criteria.type == 'N'}">스크립트명</option>
+                <option value="C" th:selected="${criteria.type == 'C'}">카테고리</option>
+                <option value="O" th:selected="${criteria.type == 'O'}">공개여부</option>
+            </select>
+
+            <input type="text"
+                   name="keyword"
+                   class="search-input"
+                   placeholder="검색어 입력"
+                   th:value="${criteria.keyword}">
+
+            <button type="submit" class="search-btn">검색</button>
+        </form>
+
+        <button class="btn-admin btn-primary"
+                onclick="location.href='/boardEx/manage/register'">
+            + 스크립트 등록
+        </button>
+    </div>
+
+    <!-- 테이블 -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>스크립트명</th>
+                <th>카테고리</th>
+                <th>공개여부</th>
+                <th>사용횟수</th>
+                <th>등록일</th>
+                <th>관리자</th>
+                <th>관리</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="script : ${scriptList}">
+                <td th:text="${script.siteId}"></td>
+                <td th:text="${script.name}"></td>
+                <td th:text="${script.category}"></td>
+
+                <td>
+                    <span th:if="${script.openYn == 'Y'}" class="status-open">공개</span>
+                    <span th:if="${script.openYn == 'N'}" class="status-close">비공개</span>
+                </td>
+
+                <td th:text="${script.useCount}"></td>
+                <td th:text="${script.createdAt}"></td>
+                <td th:text="${script.manager}"></td>
+
+                <td>
+                    <button class="btn-admin outline"
+                            th:data-site-id="${script.siteId}"
+                            onclick="goEdit(this)">
+                        <i class="bi bi-pencil"></i>
+                        수정
+                    </button>
+
+                    <button class="btn-admin danger"
+                            th:data-site-id="${script.siteId}"
+                            onclick="deleteScript(this)">
+                        <i class="bi bi-trash"></i>
+                        삭제
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 페이징 -->
+    <div class="pagination-wrapper" th:object="${paging}">
+        <div style="text-align:center">
+
+            <!-- 이전 -->
+            <a class="page-btn changePage"
+               th:if="*{prev}"
+               href="#"
+               th:data-page="${paging.startPage - 1}">
+                &lt;
+            </a>
+
+            <!-- 페이지 번호 -->
+            <th:block th:each="num : ${#numbers.sequence(paging.startPage, paging.endPage)}">
+                <span class="page-btn active"
+                      th:if="${paging.criteria.pageNum == num}"
+                      th:text="${num}">
+                </span>
+
+                <a class="page-btn changePage"
+                   th:unless="${paging.criteria.pageNum == num}"
+                   href="#"
+                   th:data-page="${num}"
+                   th:text="${num}">
+                </a>
+            </th:block>
+
+            <!-- 다음 -->
+            <a class="page-btn changePage"
+               th:if="*{next}"
+               href="#"
+               th:data-page="${paging.endPage + 1}">
+                &gt;
+            </a>
+
+        </div>
+
+        <!-- 상태 유지용 form -->
+        <form name="pageForm" action="/boardEx/manage/manage" method="get" th:object="${criteria}">
+       		<!-- 페이징  -->
+            <input type="hidden" name="pageNum" th:field="*{pageNum}">
+            <input type="hidden" name="amount" th:field="*{amount}">
+            <!-- 검색 유지 -->
+            <input type="hidden" name="type" th:field="*{type}">
+            <input type="hidden" name="keyword" th:field="*{keyword}">
+        </form>
+    </div>
+
+</div>
+</main>
+
+<!-- FOOTER -->
+<div th:replace="~{boardEx/footer :: footer}"></div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="/assets/js/common.js" defer></script>
+<script>
+function goEdit(btn) {
+    const siteId = btn.dataset.siteId;
+    location.href = '/boardEx/manage/modify?siteId=' + siteId;
+}
+
+function deleteScript(btn) {
+    const siteId = btn.dataset.siteId;
+    if (!confirm('정말 삭제하시겠습니까?')) return;
+
+    fetch('/boardEx/manage/remove', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'siteId=' + encodeURIComponent(siteId)
+    })
+    .then(res => {
+        if (!res.ok) throw new Error();
+        return res.text();
+    })
+    .then(() => {
+    	alert("해당 스크립트 삭제 완료 했습니다.");
+        location.reload();
+    })
+    .catch(() => alert('삭제 실패'));
+}
+</script>
+
+<script th:inline="javascript">
+    $("a.changePage").on("click", function (e) {
+        e.preventDefault();
+
+        const page = $(this).data("page");
+        const pageForm = document.pageForm;
+
+        pageForm.pageNum.value = page;
+        pageForm.submit();
+    });
+    
+[[${msg}]] && alert([[${msg}]]);
+</script>
+
+</body>
+</html>

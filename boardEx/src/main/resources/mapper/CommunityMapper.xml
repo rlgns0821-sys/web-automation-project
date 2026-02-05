@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스 정보를 namespace에 기술 -->
+<mapper namespace="com.korea.boardEx.mapper.CommunityMapper">
+	<sql id="criteria">
+		<if test="type != null and keyword != null">
+			<trim prefix="AND ">
+				<choose>
+					<when test="type=='T'.toString()">
+						TITLE LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+					<when test="type=='C'.toString()">
+						CONTENT LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+					<when test="type=='W'.toString()">
+						WRITER LIKE CONCAT('%', #{keyword} , '%')
+					</when>
+				</choose>
+			</trim>
+		</if>
+	</sql>
+
+	<!-- 좋아요 관련 SQL -->
+	<update id="increaseLikes">
+		UPDATE  COMMUNITY_POST
+		   SET  LIKES = LIKES + 1 
+		 WHERE  POST_ID = #{postId}
+	</update>
+	
+	<select id="getLikes" resultType="int">
+	    SELECT LIKES
+	    FROM COMMUNITY_POST
+	    WHERE POST_ID = #{postId}
+	</select>
+
+	<select id="getList" resultType="communityVO">
+		 SELECT
+		          post.POST_ID    AS postId
+		        , post.TITLE      AS title
+		        , post.CONTENT    AS content
+		        , post.CATEGORY   AS category
+		        , post.AUTHOR     AS author
+		        , post.LIKES      AS likes
+		        , post.CREATEDAT  AS createdAt
+		        , post.UPDATEDAT  AS updatedAt
+		        , post.TICKET     AS ticket
+		        , COUNT(c.COMMENT_ID) AS comments
+		   FROM COMMUNITY_POST post
+		   LEFT JOIN COMMUNITY_COMMENT c
+		           ON c.POST_ID = post.POST_ID
+		   GROUP BY
+		          post.POST_ID
+		        , post.TITLE
+		        , post.CONTENT
+		        , post.CATEGORY
+		        , post.AUTHOR
+		        , post.LIKES
+		        , post.CREATEDAT
+		        , post.UPDATEDAT
+		        , post.TICKET
+		   ORDER BY post.POST_ID DESC
+	</select>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="postId" order="BEFORE" resultType="Long">
+			SELECT NEXTVAL(SEQ_BOARD) FROM DUAL;
+		</selectKey>
+		INSERT INTO COMMUNITY_POST(
+				  POST_ID
+				, TITLE
+				, CONTENT
+				, AUTHOR
+				, TICKET
+		)
+		VALUES (
+			  #{postId}
+			, #{title}
+			, #{content}
+			, #{author}
+			, #{ticket}
+		)
+	</insert>
+	
+	<select id="select" resultType="communityVO">
+		SELECT POST_ID 	 AS postId
+			 , TITLE   	 AS title
+			 , CONTENT 	 AS content
+			 , AUTHOR  	 AS author
+			 , TICKET    AS ticket
+			 , CREATEDAT AS createdAt
+			 , COMMENTS  AS comments
+			 , LIKES 	 AS likes
+		  FROM COMMUNITY_POST
+		 WHERE POST_ID = #{postId}
+	</select>
+	
+	<update id="update">
+		UPDATE COMMUNITY_POST
+		   SET 
+		   	     TITLE = #{title}
+		   	   , CONTENT = #{content}
+		   	   , TICKET  = #{ticket}
+		   	   , UPDATEDAT = NOW()
+		 WHERE POST_ID = #{postId}
+	</update>
+	
+	<delete id="delete">
+		DELETE FROM COMMUNITY_POST WHERE POST_ID = #{postId}
+	</delete>
+	
+	<update id="updateCategory">
+		UPDATE COMMUNITY_POST
+		   SET CATEGORY = #{category}
+		 WHERE POST_ID  = #{postId} 
+	</update>
+	
+	<!-- 페이징  -->
+	<select id="getListWithPaging" resultType="communityVO">
+		 SELECT
+		          post.POST_ID    AS postId
+		        , post.TITLE      AS title
+		        , post.CONTENT    AS content
+		        , post.CATEGORY   AS category
+		        , post.AUTHOR     AS author
+		        , post.LIKES      AS likes
+		        , post.CREATEDAT  AS createdAt
+		        , post.UPDATEDAT  AS updatedAt
+		        , post.TICKET     AS ticket
+		        , COUNT(c.COMMENT_ID) AS comments
+		   FROM COMMUNITY_POST post
+		   LEFT JOIN COMMUNITY_COMMENT c
+		           ON c.POST_ID = post.POST_ID
+		   WHERE 1 = 1
+           <include refid="criteria"></include>
+		   GROUP BY
+		          post.POST_ID
+		        , post.TITLE
+		        , post.CONTENT
+		        , post.CATEGORY
+		        , post.AUTHOR
+		        , post.LIKES
+		        , post.CREATEDAT
+		        , post.UPDATEDAT
+		        , post.TICKET
+		   ORDER BY post.POST_ID DESC
+		   LIMIT #{amount} OFFSET #{offset}
+	</select>
+	<!-- 커뮤니티 전체 수  -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM COMMUNITY_POST post
+		 WHERE 1 = 1
+		<include refid="criteria"></include>	  
+	</select>
+	
+</mapper>

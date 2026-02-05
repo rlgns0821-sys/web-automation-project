@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스 정보를 namespace에 기술 -->
+<mapper namespace="com.korea.boardEx.mapper.CommentsMapper">
+	<select id="getList" resultType="commentsVO">
+		SELECT
+			   COMMENT_ID AS commentId
+			 , POST_ID 	  AS postId
+			 , AUTHOR     AS author
+			 , CONTENT    AS content
+			 , CREATEDAT  AS createdAt
+			 , UPDATEDAT  AS updatedAt
+		  FROM COMMUNITY_COMMENT
+		 WHERE POST_ID = #{postId}
+		 ORDER BY COMMENT_ID DESC 
+	</select>
+	
+	<!-- 댓글 등록 -->
+    <insert id="insert" parameterType="commentsVO">
+	    INSERT INTO COMMUNITY_COMMENT (
+	        POST_ID,
+	        AUTHOR,
+	        CONTENT,
+	        CREATEDAT
+	    ) VALUES (
+	        #{postId},
+	        #{author},
+	        #{content},
+	        NOW()
+	    )
+    </insert>
+
+    <!-- 댓글 수정 -->
+    <update id="update">
+	    UPDATE COMMUNITY_COMMENT
+	       SET CONTENT = #{content},
+	           UPDATEDAT = NOW()
+	     WHERE COMMENT_ID = #{commentId}
+    </update>
+
+    <!-- 댓글 삭제 -->
+    <delete id="delete">
+	    DELETE FROM COMMUNITY_COMMENT
+	     WHERE COMMENT_ID = #{commentId}
+    </delete>
+</mapper>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<select id="start">
+	  <option value="서울">서울</option>
+	  <option value="동탄">동탄</option>
+	</select>
+	
+	<select id="end">
+	  <option value="부산">부산</option>
+	</select>
+	
+	<input type="date" id="date">
+	
+	<input type="time" id="startTime" value="07:00">
+	<input type="time" id="endTime" value="08:30">
+	
+	<button onclick="save()">저장</button>
+</body>
+<script type="text/javascript">
+function save() {
+	  fetch("/api/ktx/config", {
+	    method: "POST",
+	    headers: { "Content-Type": "application/json" },
+	    body: JSON.stringify({
+	      start: start.value,
+	      end: end.value,
+	      date: date.value,
+	      startTime: startTime.value,
+	      endTime: endTime.value
+	    })
+	  });
+	}
+</script>
+</html>

@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자동예매 - 티켓팅의 모든 것</title>
+
+<!-- Favicons -->
+<link href="/assets/img/thunder_icon.png" rel="icon">
+
+<style>
+       .modal-footer .btn-outline2 {
+		  border-color: var(--primary);
+		  color: var(--primary);
+		}
+		
+		.modal-footer .btn-outline:hover {
+		  background: var(--primary);
+		  color: white;
+		}
+		
+		/* =====modal 스타일=====  */
+		
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+    
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #f1f5f9;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            background: #f8fafc;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .nav-menu a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 1.5rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-modal {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline2 {
+            background: transparent;
+            border: 2px solid white;
+            color: black;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .section {
+            padding: 4rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.125rem;
+            color: var(--gray);
+            margin-bottom: 3rem;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Popular Scripts */
+        .scripts-grid {
+		    display: grid;
+		    
+		    grid-auto-flow: column;      /* 줄 바꿈 금지 */
+		    grid-auto-columns: 360px;    /* 카드 폭 고정 */
+		
+		    gap: 1.5rem;
+		    margin: 2rem 0;
+		
+		    overflow-x: auto;            /* 가로 스크롤 */
+		    overflow-y: visible;         /* hover 그림자 살리기 */
+		    padding: 2rem 0;             /* 그림자 여유 공간 */
+		}
+
+        .script-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .script-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .script-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: white;
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+
+        .script-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem;
+            color: white;
+            position: relative;
+        }
+
+        .script-header h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .script-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .script-body {
+            padding: 1.5rem;
+        }
+
+        .script-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 0.375rem 0.875rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .tag-transport {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+
+        .tag-ticket {
+            background: rgba(168, 85, 247, 0.1);
+            color: #7c3aed;
+        }
+
+        .tag-easy { background: rgba(16, 185, 129, 0.1); color: #059669; }
+        .tag-medium { background: rgba(245, 158, 11, 0.1); color: #d97706; }
+        .tag-hard { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+
+        .script-features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .script-features li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .script-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .script-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-secondary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Stats Section */
+        .stats {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-item p {
+            font-size: 1.125rem;
+            opacity: 0.8;
+        }
+
+        /* How It Works */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: var(--gray);
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 1.5rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 4rem 0;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1.5rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1.25rem;
+            border-radius: 10px;
+            margin: 2rem 0;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #92400e;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1.125rem;
+        }
+
+        .alert ul {
+            padding-left: 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .alert li {
+            margin: 0.25rem 0;
+        }
+
+        /* Page Content (for other pages) */
+        .page-content {
+            display: none;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                transition: left 0.3s;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .scripts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .scroll-top {
+	    position: fixed;
+	    right: 20px;
+	    bottom: 20px;
+	    width: 48px;
+	    height: 48px;
+	    background: var(--primary);
+	    color: white;
+	    border-radius: 50%;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    font-size: 1.5rem;
+	    cursor: pointer;
+	    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+	    z-index: 9999;
+	
+	    opacity: 0;
+	    pointer-events: none;
+	    transition: opacity 0.3s, transform 0.3s;
+	}
+	
+	.scroll-top.show {
+	    opacity: 1;
+	    pointer-events: auto;
+	}
+	
+	.scroll-top:hover {
+	    transform: translateY(-3px);
+	}
+</style>
+</head>
+<body>
+	<!-- header + nav 부분 header.html을 씀으로써 유지보수 편리 -->
+	<div th:replace="~{boardEx/header :: header}"></div>
+	
+    <!-- Home Page -->
+    <div id="homePage" class="page-content active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content fade-in">
+                <h1>🎫 티켓팅의 새로운 시작</h1>
+                <p>SRT, KTX, 콘서트 예매를 스크립트로 자동화하세요.<br></p>
+                   
+                <div class="hero-buttons">
+                    <a th:href="@{/boardEx/scripts}" class="btn btn-primary">
+                        스크립트 보러가기 →
+                    </a>
+                    <a th:href="@{/boardEx/guide}" class="btn btn-outline">
+                        사용방법 알아보기
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">왜 자동예매 스크립트인가?</h2>
+                <p class="section-subtitle">순수 인간의 힘으로는 불가능한 티켓팅, 이제 스크립트로 해결하세요</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">⚡</div>
+                        <h3>초고속 처리</h3>
+                        <p>밀리초 단위의 빠른 반응속도로 경쟁에서 우위를 점하세요</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🔄</div>
+                        <h3>자동 재시도</h3>
+                        <p>좌석이 나올 때까지 자동으로 계속 재시도합니다</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🎯</div>
+                        <h3>정확한 선택</h3>
+                        <p>원하는 날짜, 시간, 좌석을 정확하게 선택할 수 있습니다</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">🔧</div>
+                        <h3>쉬운 설정</h3>
+                        <p>값만 수정하면 누구나 쉽게 사용 가능합니다</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">📱</div>
+                        <h3>무료 사용</h3>
+                        <p>모든 스크립트를 완전 무료로 제공합니다</p>
+                    </div>
+                    
+                    <div class="feature-card fade-in">
+                        <div class="feature-icon">💡</div>
+                        <h3>실시간 업데이트</h3>
+                        <p>사이트 변경에 맞춰 스크립트를 지속적으로 업데이트합니다</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Popular Scripts Section -->
+        <section class="section" style="background: white;">
+            <div class="container">
+                <h2 class="section-title">인기 스크립트</h2>
+                <p class="section-subtitle">가장 많이 사용되는 자동예매 스크립트를 확인하세요</p>
+                
+                <div class="scripts-grid" id="popularScripts">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">사용 방법</h2>
+                <p class="section-subtitle">4단계로 간단하게 자동예매를 시작하세요</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <h3>스크립트 복사</h3>
+                        <p>원하는 사이트의 스크립트를 복사합니다</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <h3>사이트 접속</h3>
+                        <p>예매 사이트에 로그인하고 예매 페이지로 이동합니다</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <h3>콘솔 열기</h3>
+                        <p>F12를 눌러 개발자 도구의 Console 탭을 엽니다</p>
+                    </div>
+                    
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <h3>실행하기</h3>
+                        <p>스크립트를 붙여넣고 Enter를 누르면 시작됩니다</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <div class="container">
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">함께하는 사용자들</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>15,247</h3>
+                        <p>누적 사용자</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>3</h3>
+                        <p>제공 스크립트</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>89%</h3>
+                        <p>예매 성공률</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>24/7</h3>
+                        <p>무료 지원</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <div class="container">
+            <section class="cta">
+                <h2>지금 바로 시작하세요</h2>
+                <p>무료로 모든 스크립트를 이용할 수 있습니다</p>
+                <a th:href="@{/boardEx/scripts}" class="btn btn-primary">
+                    스크립트 보러가기 →
+                </a>
+            </section>
+            
+        </div>
+    </div>
+
+<!-- Scroll Top -->
+<!-- <a href="#" id="scroll-top" class="scroll-top">⬆️</a> -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+<script th:inline="javascript">
+// Data
+const scriptsData = [
+    {
+        id: 'srt',
+        name: 'SRT',
+        description: 'SRT 고속열차 자동예매',
+        category: 'transport',
+        categoryName: '교통',
+        difficulty: 'medium',
+        difficultyName: '보통',
+        popular: true,
+        features: [
+            '자동 좌석 조회 및 예약',
+            '설정 가능한 재시도 간격',
+            '실시간 좌석 감지',
+            '예약 성공 시 자동 알림'
+        ],
+        url: 'https://etk.srail.kr'
+    },
+    {
+        id: 'ktx',
+        name: 'KTX',
+        description: '코레일 KTX 자동예매',
+        category: 'transport',
+        categoryName: '교통',
+        difficulty: 'medium',
+        difficultyName: '보통',
+        popular: true,
+        features: [
+            '다양한 열차 종류 지원',
+            '승객 유형별 설정 가능',
+            '선호 시간대 설정',
+            '빠른 좌석 검색'
+        ],
+        url: 'https://www.letskorail.com'
+    },
+    {
+        id: 'interpark',
+        name: '인터파크',
+        description: '콘서트/공연 티켓 자동예매',
+        category: 'ticket',
+        categoryName: '티케팅',
+        difficulty: 'hard',
+        difficultyName: '어려움',
+        popular: true,
+        features: [
+            '초고속 클릭 자동화',
+            '날짜/시간/좌석 자동 선택',
+            '좌석 등급 선택 가능',
+            '오픈 시간 자동 대기'
+        ],
+        url: 'https://tickets.interpark.com'
+    }
+];
+
+// Initialize
+function init() {
+    renderPopularScripts();
+    loadFavorites();
+}
+
+// Render Popular Scripts on Home Page
+function renderPopularScripts() {
+  fetch('/boardEx/api/scripts')
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('popularScripts');
+      const popularList = data.filter(s => s.isPopular === true);
+
+      container.innerHTML = popularList.map(script => `
+        <div class="script-card">
+          <div class="script-badge">⭐ 인기</div>
+          <div class="script-header">
+            <h3>${script.name}</h3>
+            <p>${script.description}</p>
+          </div>
+          <div class="script-body">
+            <ul class="script-features">
+              ${script.features.map(f => `<li>${f}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="script-footer">
+            <button class="btn btn-secondary btn-full"
+            	 onclick="goScript('${script.id}')">
+              📝 자동예매 하기
+            </button>
+          </div>
+        </div>
+      `).join('');
+    });
+}
+
+function goScript(siteId) {
+	
+    if(!window.loginId){ // common.js 스코프(id 값 들고오기)
+    	    alert("로그인이 필요합니다.");
+    	    location.href = "/boardEx/login";
+    	    return;
+    }		
+  	
+    // SRT는 전용 설정 페이지로 이동
+    if (siteId === 'srt') {
+    	alert(`${siteId} 자동예매 화면으로 이동합니다.`);
+      location.href = '/boardEx/autoScripts/srt';
+      return;
+    }
+    
+    viewScript(siteId);
+}
+
+
+function viewScript(siteId) {
+	
+    const script = scriptsData.find(s => s.id === siteId);
+    if (!script) return;
+
+    console.log('📦 script:', script);
+
+    alert(`${siteId} 스크립트 상세 페이지로 이동합니다.\n\n실제 구현에서는 스크립트 코드와 상세 사용법이 표시됩니다.`);
+    location.href = '/boardEx/scripts?siteId=' + siteId;
+    
+    // 🔥 여기서 기존 모달 / 코드 표시
+    openScriptModal(script);
+}
+
+// Favorites Management
+function getFavorites() {
+    const favorites = localStorage.getItem('favorites');
+    return favorites ? JSON.parse(favorites) : [];
+}
+
+function loadFavorites() {
+    const favorites = getFavorites();
+    favorites.forEach(id => {
+        const btn = document.getElementById(`fav-${id}`);
+        if (btn) btn.textContent = '⭐';
+    });
+}
+
+function isFavorite(scriptId) {
+    return getFavorites().includes(scriptId);
+}
+
+function toggleFavorite(scriptId) {
+    let favorites = getFavorites();
+    const index = favorites.indexOf(scriptId);
+    
+    if (index > -1) {
+        favorites.splice(index, 1);
+        alert('즐겨찾기에서 제거되었습니다');
+    } else {
+        favorites.push(scriptId);
+        alert('즐겨찾기에 추가되었습니다');
+    }
+    
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    
+    // Update button
+    const btn = document.getElementById(`fav-${scriptId}`);
+    if (btn) btn.textContent = isFavorite(scriptId) ? '⭐' : '☆';
+}
+
+// Community Functions
+function createPost() {
+    const author = prompt('작성자 이름:');
+    if (!author) return;
+    
+    const siteName = prompt('추천 사이트명:');
+    if (!siteName) return;
+    
+    const description = prompt('설명 (왜 필요한지):');
+    if (!description) return;
+    
+    alert('✅ 사이트 추천이 등록되었습니다!\n검토 후 승인됩니다.');
+    loadCommunityPosts();
+}
+
+function likePost(postId) {
+    const likesEl = document.getElementById(`post-likes-${postId}`);
+    if (likesEl) {
+        likesEl.textContent = parseInt(likesEl.textContent) + 1;
+    }
+}
+
+// Mobile Menu Toggle
+function toggleMobileMenu() {
+    document.getElementById('navMenu').classList.toggle('active');
+}
+
+// Initialize on load
+window.addEventListener('DOMContentLoaded', init);
+
+// Close mobile menu when clicking outside
+document.addEventListener('click', function(e) {
+    const nav = document.getElementById('navMenu');
+    const btn = document.querySelector('.mobile-menu-btn');
+    
+    if (!nav.contains(e.target) && !btn.contains(e.target)) {
+        nav.classList.remove('active');
+    }
+});
+
+const scrollTopBtn = document.getElementById("scroll-top");
+
+// 스크롤 시 버튼 표시
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 300) {
+    scrollTopBtn.classList.add("show");
+  } else {
+    scrollTopBtn.classList.remove("show");
+  }
+});
+
+// 클릭 시 맨 위로 이동
+scrollTopBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+});
+
+/* ==========면책사항 모달창======== */
+console.log('🔥 modal js loaded');
+
+document.addEventListener('click', function (e) {
+
+  const openTarget = e.target.closest('[data-modal]');
+  if (openTarget) {
+    e.preventDefault();
+    console.log('✅ disclaimer click detected');
+
+    const modalId = openTarget.dataset.modal + 'Modal';
+    const modal = document.getElementById(modalId);
+
+    console.log('modalId:', modalId);
+    console.log('modal element:', modal);
+
+    if (modal) modal.classList.add('active');
+    return;
+  }
+
+  if (
+    e.target.matches('[data-close]') ||
+    e.target.classList.contains('modal')
+  ) {
+    const modal = e.target.closest('.modal');
+    if (modal) modal.classList.remove('active');
+  }
+});
+/* ========모달창 끝==================  */
+</script>
+<script src="/assets/js/common.js" defer></script>
+
+<!-- ✅ Disclaimer Modal (footer 밖에 있어야 함) -->
+<div id="disclaimerModal" class="modal" aria-hidden="true">
+  <div class="modal-content" style="color: #1e293b;">
+    <div class="modal-header">
+      <h2 class="modal-title">⚠️ 주의사항 및 면책조항</h2>
+      <p class="subtitle">스크립트 사용 전 반드시 확인해주세요</p>
+    </div>
+
+    <div class="modal-body">
+      <ul style="padding-left: 1.5rem; font-size: 0.875rem;">
+        <li>본 스크립트는 교육 및 참고 목적으로 제공됩니다</li>
+        <li>스크립트 사용으로 인한 모든 책임은 사용자에게 있습니다</li>
+        <li>과도한 요청으로 인한 서버 부하 및 IP 차단에 유의하세요</li>
+        <li>각 사이트의 이용약관을 준수하며 사용하시기 바랍니다</li>
+        <li>예매 성공을 보장하지 않으며, 실제 예매는 해당 사이트 정책에 따릅니다</li>
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-modal btn-outline2" data-close>닫기</button>
+    </div>
+  </div>
+</div>
+<!-- footer부분을 footer.html으로 대체하여 유지보수 편리성 확보  -->    
+<div th:replace="~{boardEx/footer :: footer}"></div>
+</body>
+</html>

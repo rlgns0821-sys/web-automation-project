@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "SRT Auto Booking (From My Site)",
+  "version": "1.0.0",
+  "description": "내 사이트에서 설정한 값으로 SRT 자동 예매",
+  "permissions": ["storage", "tabs"],
+  "host_permissions": [
+    "https://etk.srail.kr/*",
+	"http://localhost:10001/*" 
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+					"http://localhost:10001/boardEx/autoScripts/srt*"
+				 ],
+      "js": ["site-content.js"],
+      "run_at": "document_idle"
+    },
+	{
+	  "matches": ["https://etk.srail.kr/*"],
+	  "js": ["srt-content.js"],
+	  "run_at": "document_idle",
+	  "all_frames": true
+	}
+
+  ]
+}

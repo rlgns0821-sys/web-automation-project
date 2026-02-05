@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Naver Login Callback</title>
+  <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script>
+</head>
+<body>
+
+<script>
+  const naverLogin = new naver.LoginWithNaverId({
+    clientId: "Py1P1aUvHuoyfJZP_HKq",
+    callbackUrl: "http://localhost:10001/boardEx/naverCallback"
+  });
+
+  naverLogin.init();
+
+  window.onload = function () {
+	  naverLogin.getLoginStatus(function (status) {
+	    if (!status) {
+	      location.href = "/boardEx/login";
+	      return;
+	    }
+
+	    const email = naverLogin.user.getEmail();
+	    const name  = naverLogin.user.getName();
+
+	    if (!email || !name) {
+	      alert("네이버 로그인 필수 정보 동의가 필요합니다.");
+	      location.href = "/boardEx/login";
+	      return;
+	    }
+
+	    // ✅ 여기서 loginId 생성됨 (네가 찾던 그 코드)
+	    const loginId   = email.split("@")[0];
+	    const loginName = name;
+
+	    // 🔥 서버에 세션 생성 (이게 핵심)
+	    fetch("/boardEx/login", {
+	      method: "POST",
+	      headers: {
+	        "Content-Type": "application/json"
+	      },
+	      credentials: "same-origin",
+	      body: JSON.stringify({
+	        loginId: loginId,
+	        loginName: loginName
+	      })
+	    }).then(() => {
+	      // UI용
+	      sessionStorage.setItem("loginId", loginId);
+	      sessionStorage.setItem("loginName", loginName);
+
+	      location.href = "/";
+	    });
+	  });
+	};
+</script>
+</body>
+</html>

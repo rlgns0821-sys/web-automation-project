@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>SRT 자동예매 설정</title>
+<link href="/assets/img/thunder_icon.png" rel="icon">
+<style>
+  :root {
+    --primary: #6b1d1d;
+    --primary-dark: #531515;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --border: #e5e7eb;
+    --text: #1f2937;
+    --sub: #6b7280;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+  }
+
+  .page-wrap {
+    max-width: 520px;
+    margin: 60px auto;
+    padding: 0 16px;
+  }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.04);
+  }
+
+  .title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .title h2 {
+    margin: 0;
+    font-size: 22px;
+  }
+
+  .title span {
+    font-size: 14px;
+    color: var(--sub);
+  }
+
+  .form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+
+  .form-row label {
+    width: 110px; /* 라벨 너비 살짝 늘림 */
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .form-row select,
+  .form-row input {
+    flex: 1;
+    height: 40px;
+    padding: 0 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    background: #fff;
+  }
+  
+  /* 읽기 전용 입력창 스타일 */
+  input[readonly] {
+    background-color: #f1f5f9;
+    color: #64748b;
+    cursor: not-allowed;
+    border-color: #e2e8f0;
+  }
+
+  .form-row select:focus,
+  .form-row input:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 26px;
+  }
+
+  .btn {
+    flex: 1;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: var(--primary-dark);
+  }
+
+  .btn-outline {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+
+  .btn-outline:hover {
+    background: #f1f5f9;
+  }
+
+  .footer-note {
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.5;
+  }
+  
+  hr { margin: 20px 0; border: 0; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="card">
+
+    <div class="title">
+      <h2>🚄 SRT 자동 예매</h2>
+      <span>봇 설정</span>
+    </div>
+    
+    <div class="form-row">
+      <label for="notifyUserId">문자받을 ID</label>
+      <input type="text" id="notifyUserId" readonly placeholder="로그인이 필요합니다">
+    </div>
+
+    <div class="form-row">
+      <label for="srtId">SRT 회원번호 *</label>
+      <input type="text" id="srtId" placeholder="숫자 10자리 (예: 1234567890)" required>
+    </div>
+
+    <div class="form-row">
+      <label for="srtPw">SRT 비밀번호 *</label>
+      <input type="password" id="srtPw" placeholder="SRT 비밀번호" required>
+    </div>
+    
+    <hr>
+
+    <div class="form-row">
+      <label for="dpt">출발역 *</label>
+      <select id="dpt" required>
+        <option value="수서" selected>수서</option>
+        <option value="동탄">동탄</option>
+        <option value="평택지제">평택지제</option>
+        <option value="천안아산">천안아산</option>
+        <option value="오송">오송</option>
+        <option value="대전">대전</option>
+        <option value="김천구미">김천구미</option>
+        <option value="동대구">동대구</option>
+        <option value="경주">경주</option>
+        <option value="울산">울산</option>
+        <option value="부산">부산</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="arv">도착역 *</label>
+      <select id="arv" required>
+        <option value="부산" selected>부산</option>
+        <option value="수서">수서</option>
+        <option value="동탄">동탄</option>
+        <option value="평택지제">평택지제</option>
+        <option value="천안아산">천안아산</option>
+        <option value="오송">오송</option>
+        <option value="대전">대전</option>
+        <option value="김천구미">김천구미</option>
+        <option value="동대구">동대구</option>
+        <option value="경주">경주</option>
+        <option value="울산">울산</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="date">날짜 *</label>
+      <input id="date" type="date" required>
+    </div>
+
+    <div class="form-row">
+      <label for="start">시간 *</label>
+      <select id="start" required>
+        <option value="05:00">05시 이후</option>
+        <option value="06:00">06시 이후</option>
+        <option value="07:00">07시 이후</option>
+        <option value="08:00">08시 이후</option>
+        <option value="09:00">09시 이후</option>
+        <option value="10:00">10시 이후</option>
+        <option value="11:00">11시 이후</option>
+        <option value="12:00">12시 이후</option>
+        <option value="13:00">13시 이후</option>
+        <option value="14:00">14시 이후</option>
+        <option value="15:00">15시 이후</option>
+        <option value="16:00">16시 이후</option>
+        <option value="17:00">17시 이후</option>
+        <option value="18:00">18시 이후</option>
+        <option value="19:00">19시 이후</option>
+        <option value="20:00">20시 이후</option>
+        <option value="21:00">21시 이후</option>
+      </select>
+    </div>
+
+    <div class="btn-group">
+      <button id="autoBtn" class="btn btn-primary">🚀 자동예매 시작</button>
+      <button class="btn btn-outline" onclick="location.href='/'">메인으로</button>
+    </div>
+
+    <div class="footer-note">
+      * 봇 서버가 꺼져있어도 자동으로 실행됩니다.<br>
+      * 예매 성공 시 위 아이디(휴대폰 번호)로 문자가 전송됩니다.
+    </div>
+
+  </div>
+</div>
+
+<script>
+// [핵심] 로그인 정보 자동 연동
+window.onload = function() {
+    // 1. 날짜 기본값 설정
+    document.getElementById('date').valueAsDate = new Date();
+
+    // 2. 세션 스토리지에서 아이디 가져오기
+    const savedId = sessionStorage.getItem("loginId");
+    const notifyInput = document.getElementById("notifyUserId");
+
+    if (savedId) {
+        notifyInput.value = savedId; // 값 채워넣기
+        console.log("✅ 로그인된 사용자:", savedId);
+    } else {
+        alert("로그인 정보가 없습니다. 로그인 페이지로 이동합니다.");
+        location.href = "/boardEx/login"; // 로그인 페이지 경로 확인 필요
+    }
+};
+
+document.getElementById("autoBtn").addEventListener("click", () => {
+  // 1. 값 가져오기
+  const notifyUserId = document.getElementById("notifyUserId").value; // 자동 입력된 값
+  const srtId = document.getElementById("srtId").value.trim();
+  const srtPw = document.getElementById("srtPw").value.trim();
+  const dpt = document.getElementById("dpt").value;
+  const arv = document.getElementById("arv").value;
+  const date = document.getElementById("date").value;
+  const time = document.getElementById("start").value;
+
+  // 2. 유효성 검사
+  if (!notifyUserId) {
+      alert("로그인이 필요합니다.");
+      return;
+  }
+  if (!srtId || !srtPw) {
+      alert("SRT 회원번호와 비밀번호를 입력해주세요.");
+      return;
+  }
+  if (dpt === arv) {
+      alert("출발역과 도착역이 같습니다.");
+      return;
+  }
+
+  // 3. 데이터 포장
+  const data = {
+      loginId: notifyUserId, // 문자 받을 내 ID
+      srtId: srtId,          // 봇이 쓸 SRT ID
+      loginPw: srtPw,        // 봇이 쓸 SRT PW
+      dpt: dpt,
+      arv: arv,
+      date: date,
+      time: time
+  };
+
+  console.log("전송 데이터:", data);
+  alert("봇을 실행합니다. 잠시만 기다려주세요...");
+
+  // 4. Spring Boot 서버로 전송
+  fetch("/boardEx/autoScripts/srt/run", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(result => {
+      if (result.result === "OK") {
+          alert("봇 실행 성공!\n\n서버 컴퓨터에서 크롬창이 열렸습니다.\n예매가 완료되면 문자로 알려드립니다.");
+      } else {
+          alert("실행 실패: " + result.msg);
+      }
+  })
+  .catch(err => {
+      alert("서버 연결 에러: " + err);
+  });
+});
+</script>
+
+</body>
+</html>

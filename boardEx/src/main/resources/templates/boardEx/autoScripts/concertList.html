@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>티켓 봇 콘서트 목록</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; background-color: #f4f4f9; padding: 20px; }
+        h1 { text-align: center; color: #333; }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        .concert-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .concert-card:hover { transform: translateY(-5px); }
+        
+        .concert-img {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-right: 25px;
+        }
+        
+        .info { flex-grow: 1; }
+        .info h2 { margin: 0 0 10px 0; font-size: 1.5em; color: #222; }
+        .info p { margin: 5px 0; color: #666; }
+        
+        .btn-start {
+            background-color: #ff3366;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .btn-start:hover { background-color: #e6004c; }
+        
+        /* 옵션 입력 스타일 */
+        .options { margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee; display: flex; gap: 10px; }
+        .options input { padding: 5px; border: 1px solid #ccc; border-radius: 4px; width: 60px; }
+        .options label { font-size: 14px; color: #555; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🎸 NOL(야놀자) 콘서트 예매 목록</h1>
+
+        <div th:each="concert : ${concerts}" class="concert-card">
+            
+            <img th:src="${concert.image}" class="concert-img" alt="포스터">
+            
+            <div class="info">
+                <h2 th:text="${concert.title}">콘서트 제목</h2>
+                <p><strong>📅 날짜:</strong> <span th:text="${concert.date}">2026.xx.xx</span></p>
+                <p><strong>🆔 상품ID:</strong> <span th:text="${concert.id}">123456</span></p>
+                
+                <form action="/boardEx/autoScripts/start-bot" method="post" target="_blank">
+                    <input type="hidden" name="id" th:value="${concert.id}">
+                    
+                    <div class="options">
+                        <div>
+                            <label>날짜순서(0~):</label>
+                            <input type="number" name="day" value="0" min="0">
+                        </div>
+                        <div>
+                            <label>회차순서(0~):</label>
+                            <input type="number" name="round" value="0" min="0">
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn-start">🚀 봇 가동하기</button>
+                </form>
+            </div>
+        </div>
+        
+        <div th:if="${#lists.isEmpty(concerts)}" style="text-align: center; padding: 50px;">
+            <h3>현재 예매 가능한 콘서트 정보를 불러오지 못했습니다.</h3>
+            <p>잠시 후 새로고침 해보세요.</p>
+        </div>
+    </div>
+
+</body>
+</html>

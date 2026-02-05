@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRT 자동 예매 (서버 구동)</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: 0 auto; }
+        input, select, button { width: 100%; padding: 10px; margin: 5px 0; box-sizing: border-box; }
+        button { background-color: #5f0080; color: white; border: none; font-weight: bold; cursor: pointer; }
+        button:hover { background-color: #4a0063; }
+        .log { background: #f0f0f0; padding: 10px; margin-top: 20px; font-size: 0.9em; min-height: 100px; }
+    </style>
+</head>
+<body>
+    <h2>🚄 SRT 자동 예매 봇</h2>
+    <p>정보를 입력하면 서버(내 컴퓨터)가 대신 예매를 시도합니다.</p>
+
+    <input type="text" id="loginId" placeholder="회원번호 (숫자 10자리)" required>
+    <input type="password" id="loginPw" placeholder="비밀번호" required>
+    
+    <div style="display: flex; gap: 10px;">
+        <input type="text" id="dpt" placeholder="출발역 (예: 수서)" value="수서">
+        <input type="text" id="arv" placeholder="도착역 (예: 부산)" value="부산">
+    </div>
+
+    <input type="date" id="date">
+    <input type="time" id="time" value="07:00">
+
+    <button id="startBtn">🚀 예매 시작</button>
+
+    <div class="log" id="logArea">대기 중...</div>
+
+    <script>
+        // 오늘 날짜 기본 세팅
+        document.getElementById('date').valueAsDate = new Date();
+
+        document.getElementById('startBtn').addEventListener('click', async () => {
+            const data = {
+                loginId: document.getElementById('loginId').value,
+                loginPw: document.getElementById('loginPw').value,
+                dpt: document.getElementById('dpt').value,
+                arv: document.getElementById('arv').value,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value
+            };
+
+            if(!data.loginId || !data.loginPw) {
+                alert('아이디와 비밀번호를 입력해주세요.');
+                return;
+            }
+
+            const logArea = document.getElementById('logArea');
+            logArea.innerText = "📡 서버로 요청 전송 중...";
+
+            try {
+                const res = await fetch('/api/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                
+                if(result.status === 'started') {
+                    logArea.innerText = `✅ 요청 성공!\n\n서버 주인의 화면에 크롬창이 떴는지 물어보세요.\n예매가 성공하면 카톡이나 연락이 갈 겁니다.`;
+                }
+            } catch (err) {
+                logArea.innerText = "❌ 서버 연결 실패: " + err.message;
+            }
+        });
+    </script>
+</body>
+</html>

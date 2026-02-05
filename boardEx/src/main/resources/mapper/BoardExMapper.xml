@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 연결할 인터페이스 정보를 namespace에 기술 -->
+<mapper namespace="com.korea.boardEx.mapper.BoardExMapper">
+	<select id="getList" resultType="boardExVO">
+		SELECT BNO, TITLE, CONTENT, WRITER, REGDATE, UPDATEDATE
+		  FROM TBL_BOARD
+		 WHERE BNO > 0
+		 ORDER BY BNO DESC
+	</select>
+</mapper>

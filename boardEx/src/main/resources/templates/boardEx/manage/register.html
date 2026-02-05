@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>자동예매 - 스크립트 등록</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<!-- Favicons -->
+<link href="/assets/img/thunder_icon.png" rel="icon">
+<link rel="stylesheet" href="/assets/css/style.css">
+<style>
+		:root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #8b5cf6;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --light-gray: #f1f5f9;
+            --border: #e2e8f0;
+        }
+
+	    .scroll-top {
+		    position: fixed;
+		    right: 20px;
+		    bottom: 20px;
+		    width: 48px;
+		    height: 48px;
+		    background: var(--primary);
+		    color: white;
+		    border-radius: 50%;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    font-size: 1.5rem;
+		    cursor: pointer;
+		    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+		    z-index: 9999;
+		
+		    opacity: 0;
+		    pointer-events: none;
+		    transition: opacity 0.3s, transform 0.3s;
+		}
+		
+		.scroll-top.show {
+		    opacity: 1;
+		    pointer-events: auto;
+		}
+		
+		.scroll-top:hover {
+		    transform: translateY(-3px);
+		}
+    
+        body {
+            background: #f8fafc;
+            font-family: system-ui, sans-serif;
+        }
+        .write-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,.05);
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+        textarea {
+            min-height: 240px;
+            resize: vertical;
+        }
+        .btn-area {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: #6366f1;
+            color: white;
+        }
+        .btn-cancel {
+            background: #e5e7eb;
+        }
+        .guide {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+<div class="write-container">
+    <h2>📂 스크립트 등록</h2>
+
+    <form action="/boardEx/manage/register" method="post">
+    	<!-- 로그인 사용자 ID (email @ 앞)  -->
+    	<input type="hidden" name="manager"
+    			th:value="${session.loginId}">
+        
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" name="siteId"
+                   placeholder="예) srt / ktx / interpark"
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label>스크립트 명</label>
+            <input type="text" name="name"
+                   placeholder="예) srt / ktx / interpark"
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label>카테고리</label>
+            <select name="category" required>
+                <option value="">선택하세요</option>
+                <option value="교통">교통</option>
+                <option value="티케팅">티케팅</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>공개여부</label>
+            <select name="openYn">
+                <option value="">선택하세요</option>
+                <option value="Y">공개</option>
+                <option value="N">비공개</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>설명</label>
+            <input type="text" name="description"
+                   placeholder="예) SRT 자동예매 스크립트"
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label>난이도</label>
+            <select name="difficulty" required="required">
+                <option value="">선택하세요</option>
+                <option value="쉬움">쉬움</option>
+                <option value="보통">보통</option>
+                <option value="어려움">어려움</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>URL</label>
+            <input type="text" name="url"
+                   placeholder="예) https://www.letskorail.com"
+                   required>
+        </div>
+        
+        <div class="form-group">
+            <label>주요기능</label>
+            <input type="text" name="feature"
+                   placeholder="예) 초고속 클릭 자동화"
+                   >
+        </div>
+        
+        <div class="form-group">
+            <label>주요기능2</label>
+            <input type="text" name="feature2"
+                   placeholder="예) 설정 가능한 재시도 간격"
+                   >
+        </div>
+        
+        <div class="form-group">
+            <label>주요기능3</label>
+            <input type="text" name="feature3"
+                   placeholder="예) 오픈 시간 자동 대기"
+            		>
+        </div>
+        
+        <div class="form-group">
+            <label>주요기능4</label>
+            <input type="text" name="feature4"
+                   placeholder="예) 예약 성공 시 자동 알림"
+                   >
+        </div>
+		<br />
+        <div class="guide">
+            💡 팁  
+            - 추천 사이트 주소를 정확히 입력하여 주세요.  
+            - 사이트명, 시간대, 이유는 필수!
+        </div>
+		<br />
+        <div class="btn-area">
+        	<button type="button" class="btn btn-cancel" onclick="history.back()">취소</button> 
+            <button type="submit" class="btn btn-primary">등록</button>
+        </div>
+    </form>
+</div>
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+</body>
+<script src="/assets/js/common.js" defer></script>
+<script type="text/javascript">
+	const scrollTopBtn = document.getElementById("scroll-top");
+	
+	//스크롤 시 버튼 표시
+	window.addEventListener("scroll", () => {
+		if (window.scrollY > 300) {
+		 scrollTopBtn.classList.add("show");
+		} else {
+		 scrollTopBtn.classList.remove("show");
+		}
+	});
+	
+	//클릭 시 맨 위로 이동
+	scrollTopBtn.addEventListener("click", (e) => {
+		e.preventDefault();
+		window.scrollTo({
+		 top: 0,
+		 behavior: "smooth"
+		});
+	});
+</script>
+</html>
