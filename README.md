@@ -1,6 +1,6 @@
 # 웹 자동화 관리 플랫폼
 
-##Live URL
+## Live URL
 https://triston-nongelatinizing-rema.ngrok-free.dev/
 
 ## 프로젝트 소개
@@ -18,7 +18,7 @@ Spring Boot 기반의 웹 서비스로 확장한 프로젝트입니다.
 - Infra: Local + ngrok
 - Tools: Git / GitHub
 
-## ⭐ 주요 기능
+## 주요 기능
 - 자동화 조건 설정 (날짜 / 시간 / 대상)
 - 자동 실행 및 중지 제어
 - 실행 상태 및 로그 확인
